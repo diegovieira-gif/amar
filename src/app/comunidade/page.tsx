@@ -40,18 +40,18 @@ function IconCalendar() {
 
 export default function ComunidadePage() {
   return (
-    <div className="relative flex min-h-screen flex-col bg-neutral-950">
+    <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
       <TopBar />
       <main className="relative flex flex-1 flex-col gap-6 pb-32 pt-24">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-semibold text-white">Comunidade</h1>
-          <p className="text-sm text-white/60">
+          <h1 className="text-3xl font-semibold" style={{ color: 'var(--text-primary)' }}>Comunidade</h1>
+          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
             Participação social, eventos e fóruns de discussão
           </p>
         </div>
 
         <div className="flex flex-col gap-4">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-white/50">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-secondary)' }}>
             Pesquisas em Andamento
           </h2>
           <div className="flex flex-col gap-3">
@@ -60,17 +60,18 @@ export default function ComunidadePage() {
               .map((survey) => (
                 <button
                   key={survey.id}
-                  className="flex flex-col gap-3 rounded-2xl bg-white px-5 py-4 text-left shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+                  className="flex flex-col gap-3 rounded-2xl px-5 py-4 text-left shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+                  style={{ backgroundColor: 'var(--bg-surface)' }}
                 >
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-semibold text-neutral-900">{survey.title}</h3>
-                    <p className="text-sm text-neutral-600">{survey.description}</p>
+                    <h3 className="font-semibold" style={{ color: 'var(--surface-text-primary)' }}>{survey.title}</h3>
+                    <p className="text-sm" style={{ color: 'var(--surface-text-secondary)' }}>{survey.description}</p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-neutral-500">
+                    <span className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>
                       {survey.respondents} respostas
                     </span>
-                    <span className="rounded-full bg-neutral-900 px-4 py-2 text-xs font-semibold text-white">
+                    <span className="rounded-full px-4 py-2 text-xs font-semibold" style={{ backgroundColor: 'var(--button-primary-bg)', color: 'var(--button-primary-text)' }}>
                       Responder
                     </span>
                   </div>
@@ -80,20 +81,21 @@ export default function ComunidadePage() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-white/50">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-secondary)' }}>
             Eventos e Oficinas
           </h2>
           <div className="flex flex-col gap-3">
             {events.slice(0, 3).map((event) => (
               <div
                 key={event.id}
-                className="flex flex-col gap-3 rounded-2xl bg-white px-5 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
+                className="flex flex-col gap-3 rounded-2xl px-5 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
+                style={{ backgroundColor: 'var(--bg-surface)' }}
               >
                 <div className="flex flex-col gap-2">
-                  <h3 className="font-semibold text-neutral-900">{event.title}</h3>
-                  <p className="text-sm text-neutral-600">{event.description}</p>
+                  <h3 className="font-semibold" style={{ color: 'var(--surface-text-primary)' }}>{event.title}</h3>
+                  <p className="text-sm" style={{ color: 'var(--surface-text-secondary)' }}>{event.description}</p>
                 </div>
-                <div className="flex flex-col gap-2 text-xs text-neutral-600">
+                <div className="flex flex-col gap-2 text-xs" style={{ color: 'var(--surface-text-secondary)' }}>
                   <div className="flex items-center gap-2">
                     <IconCalendar />
                     <span>{event.date}</span>
@@ -105,7 +107,7 @@ export default function ComunidadePage() {
                     <span>📍 {event.location}</span>
                   </div>
                 </div>
-                <button className="rounded-full bg-neutral-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800">
+                <button className="rounded-full px-4 py-2 text-xs font-semibold transition" style={{ backgroundColor: 'var(--button-primary-bg)', color: 'var(--button-primary-text)' }}>
                   Participar
                 </button>
               </div>
@@ -114,23 +116,23 @@ export default function ComunidadePage() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-white/50">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-secondary)' }}>
             Fóruns Temáticos
           </h2>
           <div className="flex flex-col gap-3">
             {communityTopics.map((topic) => (
               <Link key={topic.id} href={`/comunidade/${topic.id}`}>
-                <div className="flex flex-col gap-3 rounded-2xl bg-white px-5 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+                <div className="flex flex-col gap-3 rounded-2xl px-5 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-semibold text-neutral-900">{topic.title}</h3>
-                    <p className="text-sm text-neutral-600">{topic.description}</p>
+                    <h3 className="font-semibold" style={{ color: 'var(--surface-text-primary)' }}>{topic.title}</h3>
+                    <p className="text-sm" style={{ color: 'var(--surface-text-secondary)' }}>{topic.description}</p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-xs text-neutral-500">
+                    <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--surface-text-secondary)' }}>
                       <IconComments />
                       <span>{topic.messagesCount} mensagens</span>
                     </div>
-                    <span className="text-xs text-neutral-400">{topic.lastActivity}</span>
+                    <span className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>{topic.lastActivity}</span>
                   </div>
                 </div>
               </Link>

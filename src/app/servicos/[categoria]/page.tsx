@@ -28,7 +28,7 @@ function IconChevron() {
 }
 
 function getIconComponent(iconKey: string) {
-  const icons: Record<string, JSX.Element> = {
+  const icons: Record<string, React.JSX.Element> = {
     "heart-hands": (
       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
         <path d="M12 21s-8-4-8-10V5l8-3 8 3v6c0 6-8 10-8 10Z" strokeLinecap="round" strokeLinejoin="round" />

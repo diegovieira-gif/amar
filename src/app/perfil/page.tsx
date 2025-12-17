@@ -53,70 +53,71 @@ function IconTrendingUp() {
 
 export default function PerfilPage() {
   return (
-    <div className="relative flex min-h-screen flex-col bg-neutral-950">
+    <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
       <TopBar />
       <main className="relative flex flex-1 flex-col gap-6 pb-32 pt-24">
-        <div className="flex flex-col gap-4 rounded-3xl bg-white px-6 py-6 shadow-[0_18px_60px_rgba(0,0,0,0.28)]">
+        <div className="flex flex-col gap-4 rounded-3xl px-6 py-6 shadow-[0_18px_60px_rgba(0,0,0,0.28)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-purple-400 to-pink-400 text-white font-bold text-lg">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full text-white font-bold text-lg" style={{ background: 'linear-gradient(to bottom right, rgb(192, 132, 252), rgb(244, 114, 182))' }}>
               {userProfileMock.name.charAt(0)}
             </div>
             <div className="flex flex-col gap-1">
-              <h2 className="text-lg font-semibold text-neutral-900">{userProfileMock.name}</h2>
-              <p className="text-xs text-neutral-500">{userProfileMock.neighborhood}</p>
-              <span className="text-xs font-medium text-neutral-600">{userProfileMock.status}</span>
+              <h2 className="text-lg font-semibold" style={{ color: 'var(--surface-text-primary)' }}>{userProfileMock.name}</h2>
+              <p className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>{userProfileMock.neighborhood}</p>
+              <span className="text-xs font-medium" style={{ color: 'var(--surface-text-secondary)' }}>{userProfileMock.status}</span>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-4">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-white/50">
+          <h3 className="text-sm font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-secondary)' }}>
             Ações Rápidas
           </h3>
           <div className="grid grid-cols-3 gap-3">
-            <button className="flex flex-col items-center gap-2 rounded-2xl bg-white px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+            <button className="flex flex-col items-center gap-2 rounded-2xl px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
               <IconEdit />
-              <span className="text-xs font-medium text-neutral-900">Editar</span>
+              <span className="text-xs font-medium" style={{ color: 'var(--surface-text-primary)' }}>Editar</span>
             </button>
-            <button className="flex flex-col items-center gap-2 rounded-2xl bg-white px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+            <button className="flex flex-col items-center gap-2 rounded-2xl px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
               <IconBell />
-              <span className="text-xs font-medium text-neutral-900">Notif.</span>
+              <span className="text-xs font-medium" style={{ color: 'var(--surface-text-primary)' }}>Notif.</span>
             </button>
             <Link
               href="/perfil/avaliacao"
-              className="flex flex-col items-center gap-2 rounded-2xl bg-white px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+              className="flex flex-col items-center gap-2 rounded-2xl px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+              style={{ backgroundColor: 'var(--bg-surface)' }}
             >
               <IconStar />
-              <span className="text-xs font-medium text-neutral-900">Avaliação</span>
+              <span className="text-xs font-medium" style={{ color: 'var(--surface-text-primary)' }}>Avaliação</span>
             </Link>
           </div>
         </div>
 
         <div className="flex flex-col gap-4">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-white/50">
+          <h3 className="text-sm font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-secondary)' }}>
             Minha Jornada
           </h3>
           <div className="grid grid-cols-3 gap-3">
-            <div className="flex flex-col items-center gap-2 rounded-2xl bg-white px-4 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+            <div className="flex flex-col items-center gap-2 rounded-2xl px-4 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
               <IconBook />
-              <span className="text-2xl font-bold text-neutral-900">
+              <span className="text-2xl font-bold" style={{ color: 'var(--surface-text-primary)' }}>
                 {userProfileMock.coursesCompleted}
               </span>
-              <span className="text-xs text-neutral-600">Cursos</span>
+              <span className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>Cursos</span>
             </div>
-            <div className="flex flex-col items-center gap-2 rounded-2xl bg-white px-4 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+            <div className="flex flex-col items-center gap-2 rounded-2xl px-4 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
               <IconTrendingUp />
-              <span className="text-2xl font-bold text-neutral-900">
+              <span className="text-2xl font-bold" style={{ color: 'var(--surface-text-primary)' }}>
                 {userProfileMock.eventsAttended}
               </span>
-              <span className="text-xs text-neutral-600">Eventos</span>
+              <span className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>Eventos</span>
             </div>
-            <div className="flex flex-col items-center gap-2 rounded-2xl bg-white px-4 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+            <div className="flex flex-col items-center gap-2 rounded-2xl px-4 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
               <IconStar />
-              <span className="text-2xl font-bold text-neutral-900">
+              <span className="text-2xl font-bold" style={{ color: 'var(--surface-text-primary)' }}>
                 {userProfileMock.servicesAccessed}
               </span>
-              <span className="text-xs text-neutral-600">Serviços</span>
+              <span className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>Serviços</span>
             </div>
           </div>
         </div>
