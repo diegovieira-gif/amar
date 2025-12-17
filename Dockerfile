@@ -1,48 +1,42 @@
-# Multi-stage Dockerfile for Next.js production
-# Uses Node.js 20 LTS on Debian slim for better glibc compatibility with Next.js
+# Multi-stage Dockerfile for Next.js production (App Router)
+# Optimized with Node.js 20 Alpine for minimal image size
 
-FROM node:20-bookworm-slim AS base
+FROM node:20-alpine AS builder
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Install system deps (only if needed for Sharp/Next image optimization). Kept minimal.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libc6-dev \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-# ---------- Builder stage ----------
-FROM base AS builder
 WORKDIR /app
 
 # Install dependencies
-COPY package.json package-lock.json* ./
+COPY package*.json ./
 RUN npm ci
 
-# Copy source
+# Copy source code
 COPY . .
 
 # Build Next.js app
 RUN npm run build
 
-# ---------- Runner stage ----------
-FROM base AS runner
+# ---------- Production stage ----------
+FROM node:20-alpine AS runner
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
 WORKDIR /app
 
 # Install only production dependencies
-COPY package.json package-lock.json* ./
-RUN npm ci --omit=dev --prefer-offline
+COPY package*.json ./
+RUN npm ci --only=production
 
-# Copy the built application
+# Copy built application from builder
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.js ./next.config.js
-COPY --from=builder /app/next.config.mjs ./next.config.mjs 2>/dev/null || true
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.ts ./
+COPY --from=builder /app/package.json ./
 
-# Optional: ensure a non-root user (uncomment if your env requires it)
-# RUN useradd -m nextjs
-# USER nextjs
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
+USER nextjs
 
 EXPOSE 3000
 
