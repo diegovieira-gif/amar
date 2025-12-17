@@ -47,7 +47,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
         <main className="relative flex flex-1 flex-col items-center justify-center pb-32 pt-24">
           <p style={{ color: 'var(--text-secondary)' }}>Carregando...</p>
         </main>
-        <BottomNav activeItem="Serviços" />
+        <BottomNav />
       </div>
     );
   }
@@ -126,7 +126,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
           Continuar
         </button>
       </main>
-      <BottomNav activeItem="Serviços" />
+      <BottomNav />
     </div>
   );
 }

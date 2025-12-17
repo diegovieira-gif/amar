@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { courses } from "@/lib/amar-mocks";
@@ -122,7 +124,7 @@ export default function CursosCertificadosPage() {
           </div>
         )}
       </main>
-      <BottomNav activeItem="Menu" />
+      <BottomNav />
     </div>
   );
 }

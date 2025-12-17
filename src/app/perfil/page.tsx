@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { userProfileMock } from "@/lib/amar-mocks";
@@ -119,7 +121,7 @@ export default function PerfilPage() {
           </div>
         </div>
       </main>
-      <BottomNav activeItem="Perfil" />
+      <BottomNav />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { aboutSections } from "@/lib/amar-mocks";
@@ -101,7 +103,7 @@ export default function SobreAmarPage() {
           </button>
         </div>
       </main>
-      <BottomNav activeItem="Menu" />
+      <BottomNav />
     </div>
   );
 }

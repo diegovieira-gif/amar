@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { entrepreneurshipServices } from "@/lib/amar-mocks";
@@ -120,7 +122,7 @@ export default function EmpreendedorismoPage() {
           </div>
         </div>
       </main>
-      <BottomNav activeItem="Menu" />
+      <BottomNav />
     </div>
   );
 }

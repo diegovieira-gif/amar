@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { assistanceServices } from "@/lib/amar-mocks";
@@ -135,7 +137,7 @@ export default function AssistenciaDeliveryPage() {
           </div>
         </div>
       </main>
-      <BottomNav activeItem="Menu" />
+      <BottomNav />
     </div>
   );
 }

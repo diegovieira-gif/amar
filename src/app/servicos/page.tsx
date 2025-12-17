@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { pillars } from "@/lib/amar-mocks";
@@ -98,7 +100,7 @@ export default function ServicesPage() {
           </div>
         </div>
       </main>
-      <BottomNav activeItem="Serviços" />
+      <BottomNav />
     </div>
   );
 }

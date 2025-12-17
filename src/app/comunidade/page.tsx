@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import SurfaceCard from "@/components/SurfaceCard";
 import TopBar from "@/components/TopBar";
@@ -136,7 +138,7 @@ export default function ComunidadePage() {
           </div>
         </div>
       </main>
-      <BottomNav activeItem="Comunidade" />
+      <BottomNav />
     </div>
   );
 }

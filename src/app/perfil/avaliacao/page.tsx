@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { useCallback, useState } from "react";
@@ -100,7 +102,7 @@ export default function AvaliacaoPage() {
           </Link>
         </div>
       </main>
-      <BottomNav activeItem="Perfil" />
+      <BottomNav />
     </div>
   );
 }

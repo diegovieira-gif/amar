@@ -164,7 +164,7 @@ export default function CategoryServicesPage({ params }: PageProps) {
         <main className="relative flex flex-1 flex-col items-center justify-center pb-32 pt-24">
           <p style={{ color: 'var(--text-secondary)' }}>Carregando...</p>
         </main>
-        <BottomNav activeItem="Serviços" />
+        <BottomNav />
       </div>
     );
   }
@@ -184,7 +184,7 @@ export default function CategoryServicesPage({ params }: PageProps) {
             </p>
           </div>
         </main>
-        <BottomNav activeItem="Serviços" />
+        <BottomNav />
       </div>
     );
   }
@@ -212,63 +212,53 @@ export default function CategoryServicesPage({ params }: PageProps) {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <div className="flex flex-col gap-4">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-secondary)' }}>
-            Serviços Disponíveis
-          </h2>
+        <div className="flex flex-col gap-8">
           {groupedServices.length > 0 ? (
-            <div className="flex flex-col gap-6">
-              {groupedServices.map((group) => (
-                <div key={group.modality} className="flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--text-secondary)' }}>
-                      {group.modality}
-                    </h3>
-                    <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>
-                      {group.services.length} serviço{group.services.length > 1 ? "s" : ""}
-                    </span>
-                  </div>
-                  <div className="flex flex-col gap-3">
-                    {group.services.map((service) => (
-                      <Link key={service.slug} href={`/servicos/${categoria}/${service.slug}`}>
+            groupedServices.map((group) => (
+              <div key={group.modality} className="flex flex-col gap-3">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-secondary)' }}>
+                  {group.modality}
+                </h2>
+                <div className="flex flex-col gap-3">
+                  {group.services.map((service) => (
+                    <Link key={service.slug} href={`/servicos/${categoria}/${service.slug}`}>
+                      <div
+                        className="flex items-center gap-4 rounded-2xl px-5 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+                        style={{ backgroundColor: 'var(--bg-surface)' }}
+                      >
                         <div
-                          className="flex items-center gap-4 rounded-2xl px-5 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
-                          style={{ backgroundColor: 'var(--bg-surface)' }}
+                          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
+                          style={{ backgroundColor: 'var(--button-primary-bg)' }}
                         >
-                          <div
-                            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
-                            style={{ backgroundColor: 'var(--button-primary-bg)' }}
-                          >
-                            {getIconComponent(service.iconKey)}
-                          </div>
-                          <div className="flex flex-1 flex-col gap-1">
-                            <h3 className="text-base font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
-                              {service.title}
-                            </h3>
-                            <p className="line-clamp-1 text-sm" style={{ color: 'var(--surface-text-secondary)' }}>
-                              {service.description}
-                            </p>
-                          </div>
-                          <div style={{ color: 'var(--surface-text-secondary)' }}>
-                            <IconChevron />
-                          </div>
+                          {getIconComponent(service.iconKey)}
                         </div>
-                      </Link>
-                    ))}
-                  </div>
+                        <div className="flex flex-1 flex-col gap-1">
+                          <h3 className="text-base font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
+                            {service.title}
+                          </h3>
+                          <p className="text-sm" style={{ color: 'var(--surface-text-secondary)' }}>
+                            {service.description}
+                          </p>
+                        </div>
+                        <div style={{ color: 'var(--surface-text-secondary)' }}>
+                          <IconChevron />
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))
           ) : (
-            <div className="rounded-2xl border px-5 py-8 text-center" style={{ borderColor: 'var(--border-soft)', backgroundColor: 'var(--accent-soft)' }}>
+            <div className="flex flex-col gap-4 rounded-2xl border px-5 py-8 text-center" style={{ borderColor: 'var(--border-soft)', backgroundColor: 'var(--accent-soft)' }}>
               <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                Nenhum serviço encontrado para sua busca.
+                Nenhum serviço encontrado.
               </p>
             </div>
           )}
         </div>
       </main>
-      <BottomNav activeItem="Serviços" />
+      <BottomNav />
     </div>
   );
 }

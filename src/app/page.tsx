@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import Hero from "@/components/Hero";
 import SurfaceCard from "@/components/SurfaceCard";
@@ -19,7 +21,7 @@ export default function Home() {
           />
         </div>
       </main>
-      <BottomNav activeItem="Home" />
+      <BottomNav />
     </div>
   );
 }

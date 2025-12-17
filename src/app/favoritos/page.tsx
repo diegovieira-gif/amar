@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import Link from "next/link";
@@ -45,7 +47,7 @@ export default function FavoritosPage() {
             </Link>
           </div>
         </main>
-        <BottomNav activeItem="Favoritos" />
+        <BottomNav />
       </div>
     );
   }

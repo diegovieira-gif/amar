@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { getTopicById, getThreadsByTopicId } from "@/lib/amar-mocks";
@@ -94,7 +96,7 @@ export default async function CommunityTopicPage({ params }: PageProps) {
           </button>
         </div>
       </main>
-      <BottomNav activeItem="Comunidade" />
+      <BottomNav />
     </div>
   );
 }

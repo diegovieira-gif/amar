@@ -1,3 +1,7 @@
+'use client';
+
+import { usePathname } from "next/navigation";
+
 function IconHome() {
   return (
     <svg aria-hidden className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -45,21 +49,19 @@ function IconMenu() {
   );
 }
 
-type BottomNavProps = {
-  activeItem?: string;
-};
+export default function BottomNav() {
+  const pathname = usePathname();
 
-export default function BottomNav({ activeItem = "Home" }: BottomNavProps) {
-  const getActiveLabel = (label: string): string => {
-    if (activeItem?.includes("Serviços")) return "Serviços";
-    if (activeItem?.includes("Comunidade")) return "Comunidade";
-    if (activeItem?.includes("Favoritos")) return "Favoritos";
-    if (activeItem?.includes("Perfil")) return "Perfil";
-    if (activeItem?.includes("Menu")) return "Menu";
+  const getActiveLabel = (path: string): string => {
+    if (path.startsWith("/servicos")) return "Serviços";
+    if (path.startsWith("/comunidade")) return "Comunidade";
+    if (path.startsWith("/favoritos")) return "Favoritos";
+    if (path.startsWith("/perfil")) return "Perfil";
+    if (path.startsWith("/menu")) return "Menu";
     return "Home";
   };
 
-  const activeLabel = getActiveLabel(activeItem || "Home");
+  const activeLabel = getActiveLabel(pathname);
 
   const items = [
     { label: "Home", icon: <IconHome />, href: "/" },

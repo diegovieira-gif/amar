@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
@@ -97,7 +99,7 @@ export default function MenuPage() {
           ))}
         </div>
       </main>
-      <BottomNav activeItem="Menu" />
+      <BottomNav />
     </div>
   );
 }

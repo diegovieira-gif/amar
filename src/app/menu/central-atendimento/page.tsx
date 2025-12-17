@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { contactChannels } from "@/lib/amar-mocks";
@@ -118,7 +120,7 @@ export default function CentralAtendimentoPage() {
           </div>
         </div>
       </main>
-      <BottomNav activeItem="Menu" />
+      <BottomNav />
     </div>
   );
 }
