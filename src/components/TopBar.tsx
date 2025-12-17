@@ -105,9 +105,9 @@ export default function TopBar() {
 
   return (
     <header
-      className="fixed left-1/2 top-0 z-50 flex w-full max-w-lg -translate-x-1/2 items-center justify-between gap-3 rounded-b-3xl border shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
+      className="fixed left-1/2 top-0 z-50 flex w-full max-w-lg -translate-x-1/2 items-center justify-between gap-3 rounded-b-3xl border px-4 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
       style={{
-        backgroundColor: 'var(--bg-header)',
+        backgroundColor: 'var(--accent-soft)',
         borderColor: 'var(--border-soft)',
         backdropFilter: 'blur(20px)',
       }}
@@ -121,22 +121,25 @@ export default function TopBar() {
       <div className="flex items-center gap-1">
         <IconButton
           ariaLabel="Tema escuro"
-          className={theme === 'dark' ? 'bg-[var(--accent-soft)]' : ''}
+          className={theme === 'dark' ? 'active' : ''}
           onClick={() => setTheme('dark')}
+          isActive={theme === 'dark'}
         >
           <IconMoon />
         </IconButton>
         <IconButton
           ariaLabel="Tema claro"
-          className={theme === 'light' ? 'bg-[var(--accent-soft)]' : ''}
+          className={theme === 'light' ? 'active' : ''}
           onClick={() => setTheme('light')}
+          isActive={theme === 'light'}
         >
           <IconSun />
         </IconButton>
         <IconButton
           ariaLabel="Tema rosa"
-          className={theme === 'pink' ? 'bg-[var(--accent-soft)]' : ''}
+          className={theme === 'pink' ? 'active' : ''}
           onClick={() => setTheme('pink')}
+          isActive={theme === 'pink'}
         >
           <IconHeart />
         </IconButton>

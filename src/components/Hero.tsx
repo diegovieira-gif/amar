@@ -3,7 +3,7 @@ export default function Hero() {
     <section
       className="relative mt-16 overflow-hidden rounded-3xl px-6 pb-16 pt-14 shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
       style={{
-        background: `linear-gradient(180deg, var(--bg-muted) 0%, color-mix(in srgb, var(--bg-surface) 80%, var(--accent) 20%) 50%, var(--bg-app) 100%)`,
+        background: `linear-gradient(180deg, var(--bg-surface-muted) 0%, color-mix(in srgb, var(--bg-surface) 80%, var(--accent) 20%) 50%, var(--bg-app) 100%)`,
       }}
     >
       <div className="pointer-events-none absolute inset-0 opacity-80">

@@ -1,20 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: dark;
+  --bg-app: #0f0f10;
+  --bg-surface: #ffffff;
+  --bg-surface-muted: #f4f4f5;
+  --text-primary: #f4f4f5;
+  --text-secondary: #ffffff80;
+  --text-muted: #a1a1a6;
+  --accent: #ffffff;
+  --accent-soft: rgba(255, 255, 255, 0.1);
+  --accent-hover: rgba(255, 255, 255, 0.15);
+  --accent-focus: rgba(255, 255, 255, 0.4);
+  --border-soft: rgba(255, 255, 255, 0.05);
+  --button-primary-bg: #171717;
+  --button-primary-text: #ffffff;
+  --button-secondary-border: #e5e5e7;
+  --button-secondary-text: #171717;
+  --surface-text-primary: #171717;
+  --surface-text-secondary: #a1a1a6;
+  --surface-text-muted: #d4d4d8;
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* DARK THEME (padrão) */
+/* DARK THEME (default) */
 html[data-theme="dark"],
 html:not([data-theme]) {
   --bg-app: #0f0f10;
   --bg-surface: #ffffff;
-  --bg-muted: #f4f4f5;
-  --bg-header: rgba(15, 15, 16, 0.85);
+  --bg-surface-muted: #f4f4f5;
   --text-primary: #f4f4f5;
   --text-secondary: #ffffff80;
   --text-muted: #a1a1a6;
@@ -36,8 +52,7 @@ html:not([data-theme]) {
 html[data-theme="light"] {
   --bg-app: #f9fafb;
   --bg-surface: #ffffff;
-  --bg-muted: #f3f4f6;
-  --bg-header: rgba(255, 255, 255, 0.85);
+  --bg-surface-muted: #f3f4f6;
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
   --text-muted: #9ca3af;
@@ -59,8 +74,7 @@ html[data-theme="light"] {
 html[data-theme="pink"] {
   --bg-app: #fdf3f6;
   --bg-surface: #ffffff;
-  --bg-muted: #fce7f0;
-  --bg-header: rgba(253, 243, 246, 0.85);
+  --bg-surface-muted: #fce7f0;
   --text-primary: #831d63;
   --text-secondary: #a21d70;
   --text-muted: #c45a90;

@@ -73,7 +73,7 @@ export default function BottomNav({ activeItem = "Home" }: BottomNavProps) {
     <nav
       className="fixed bottom-4 left-1/2 z-50 flex w-[min(420px,calc(100%-2rem))] -translate-x-1/2 items-center justify-between rounded-full border px-3 py-2.5 shadow-[0_18px_40px_rgba(0,0,0,0.35)]"
       style={{
-        backgroundColor: 'var(--bg-header)',
+        backgroundColor: 'var(--accent-soft)',
         borderColor: 'var(--border-soft)',
         backdropFilter: 'blur(20px)',
       }}

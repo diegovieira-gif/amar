@@ -12,7 +12,7 @@ export default function CategoryChip({ label, active = false }: CategoryChipProp
         active
           ? {
               backgroundColor: 'var(--accent)',
-              color: active ? 'white' : 'var(--text-primary)',
+              color: 'white',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
             }
           : {
