@@ -14,7 +14,12 @@ function IconSearch() {
   );
 }
 
-export default function SearchBar() {
+type SearchBarProps = {
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export default function SearchBar({ value, onChange }: SearchBarProps) {
   return (
     <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
       <span className="text-neutral-400">
@@ -23,7 +28,8 @@ export default function SearchBar() {
       <input
         type="text"
         placeholder="Pesquisar serviços..."
-        readOnly
+        value={value}
+        onChange={onChange}
         className="flex-1 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
       />
     </div>
