@@ -45,31 +45,49 @@ function IconMenu() {
   );
 }
 
-const items = [
-  { label: "Home", icon: <IconHome />, active: true },
-  { label: "Serviços", icon: <IconServices />, active: false },
-  { label: "Favoritos", icon: <IconHeart />, active: false },
-  { label: "Perfil", icon: <IconUser />, active: false },
-  { label: "Menu", icon: <IconMenu />, active: false },
-];
+type BottomNavProps = {
+  activeItem?: string;
+};
 
-export default function BottomNav() {
+export default function BottomNav({ activeItem = "Home" }: BottomNavProps) {
+  const getActiveLabel = (label: string): string => {
+    if (activeItem?.includes("Serviços")) return "Serviços";
+    if (activeItem?.includes("Comunidade")) return "Comunidade";
+    if (activeItem?.includes("Favoritos")) return "Favoritos";
+    if (activeItem?.includes("Perfil")) return "Perfil";
+    if (activeItem?.includes("Menu")) return "Menu";
+    return "Home";
+  };
+
+  const activeLabel = getActiveLabel(activeItem || "Home");
+
+  const items = [
+    { label: "Home", icon: <IconHome />, href: "/" },
+    { label: "Serviços", icon: <IconServices />, href: "/servicos" },
+    { label: "Comunidade", icon: <IconMenu />, href: "/comunidade" },
+    { label: "Favoritos", icon: <IconHeart />, href: "/favoritos" },
+    { label: "Perfil", icon: <IconUser />, href: "/perfil" },
+  ];
+
   return (
     <nav className="fixed bottom-4 left-1/2 z-50 flex w-[min(420px,calc(100%-2rem))] -translate-x-1/2 items-center justify-between rounded-full border border-white/10 bg-neutral-950/85 px-3 py-2.5 backdrop-blur-xl shadow-[0_18px_40px_rgba(0,0,0,0.35)]">
-      {items.map((item) => (
-        <button
-          key={item.label}
-          type="button"
-          className={`group flex flex-1 flex-col items-center gap-1 text-[11px] font-semibold transition ${item.active ? "text-white" : "text-white/55 hover:text-white"}`}
-        >
-          <span
-            className={`flex h-10 w-10 items-center justify-center rounded-full transition ${item.active ? "bg-white/10" : "bg-white/0 group-hover:bg-white/5"}`}
+      {items.map((item) => {
+        const isActive = item.label === activeLabel;
+        return (
+          <a
+            key={item.label}
+            href={item.href}
+            className={`group flex flex-1 flex-col items-center gap-1 text-[11px] font-semibold transition ${isActive ? "text-white" : "text-white/55 hover:text-white"}`}
           >
-            {item.icon}
-          </span>
-          <span className="leading-none">{item.label}</span>
-        </button>
-      ))}
+            <span
+              className={`flex h-10 w-10 items-center justify-center rounded-full transition ${isActive ? "bg-white/10" : "bg-white/0 group-hover:bg-white/5"}`}
+            >
+              {item.icon}
+            </span>
+            <span className="leading-none">{item.label}</span>
+          </a>
+        );
+      })}
     </nav>
   );
 }
