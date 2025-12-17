@@ -912,6 +912,10 @@ export function getServicesByCategory(categoryId: string): Service[] {
 	return services.filter((s) => s.pillarId === categoryId);
 }
 
+export function getCategoryById(id: string): Pillar | undefined {
+	return pillars.find((p) => p.id === id);
+}
+
 export function getFeaturedServices(): Service[] {
 	return services.filter((s) => s.featured);
 }
