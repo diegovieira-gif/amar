@@ -21,8 +21,11 @@ type SearchBarProps = {
 
 export default function SearchBar({ value, onChange }: SearchBarProps) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
-      <span className="text-neutral-400">
+    <div
+      className="flex items-center gap-3 rounded-2xl px-4 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
+      style={{ backgroundColor: 'var(--bg-surface)' }}
+    >
+      <span style={{ color: 'var(--surface-text-secondary)' }}>
         <IconSearch />
       </span>
       <input
@@ -30,7 +33,10 @@ export default function SearchBar({ value, onChange }: SearchBarProps) {
         placeholder="Pesquisar serviços..."
         value={value}
         onChange={onChange}
-        className="flex-1 bg-transparent text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
+        className="flex-1 bg-transparent text-sm focus:outline-none"
+        style={{
+          color: 'var(--surface-text-primary)',
+        }}
       />
     </div>
   );

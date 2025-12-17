@@ -100,15 +100,25 @@ export default function ServiceCard({ slug, title, description, iconKey }: Servi
 
   return (
     <Link href={`/servicos/${slug}`}>
-      <div className="flex items-center gap-4 rounded-2xl bg-white px-5 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-neutral-900 text-white">
+      <div
+        className="flex items-center gap-4 rounded-2xl px-5 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+        style={{ backgroundColor: 'var(--bg-surface)' }}
+      >
+        <div
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
+          style={{ backgroundColor: 'var(--button-primary-bg)' }}
+        >
           {icon}
         </div>
         <div className="flex flex-1 flex-col gap-1">
-          <h3 className="text-base font-semibold text-neutral-900">{title}</h3>
-          <p className="line-clamp-1 text-sm text-neutral-500">{description}</p>
+          <h3 className="text-base font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
+            {title}
+          </h3>
+          <p className="line-clamp-1 text-sm" style={{ color: 'var(--surface-text-secondary)' }}>
+            {description}
+          </p>
         </div>
-        <div className="shrink-0 text-neutral-400">
+        <div style={{ color: 'var(--surface-text-secondary)' }}>
           <IconChevron />
         </div>
       </div>

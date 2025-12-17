@@ -7,11 +7,29 @@ export default function CategoryChip({ label, active = false }: CategoryChipProp
   return (
     <button
       type="button"
-      className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${
+      className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition"
+      style={
         active
-          ? "bg-white text-neutral-900 shadow-md"
-          : "bg-white/10 text-white/70 hover:bg-white/15 hover:text-white"
-      }`}
+          ? {
+              backgroundColor: 'var(--accent)',
+              color: active ? 'white' : 'var(--text-primary)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+            }
+          : {
+              backgroundColor: 'var(--accent-soft)',
+              color: 'var(--text-secondary)',
+            }
+      }
+      onMouseEnter={(e) => {
+        if (!active) {
+          e.currentTarget.style.backgroundColor = 'var(--accent-hover)';
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!active) {
+          e.currentTarget.style.backgroundColor = 'var(--accent-soft)';
+        }
+      }}
     >
       {label}
     </button>

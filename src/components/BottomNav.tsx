@@ -70,17 +70,40 @@ export default function BottomNav({ activeItem = "Home" }: BottomNavProps) {
   ];
 
   return (
-    <nav className="fixed bottom-4 left-1/2 z-50 flex w-[min(420px,calc(100%-2rem))] -translate-x-1/2 items-center justify-between rounded-full border border-white/10 bg-neutral-950/85 px-3 py-2.5 backdrop-blur-xl shadow-[0_18px_40px_rgba(0,0,0,0.35)]">
+    <nav
+      className="fixed bottom-4 left-1/2 z-50 flex w-[min(420px,calc(100%-2rem))] -translate-x-1/2 items-center justify-between rounded-full border px-3 py-2.5 shadow-[0_18px_40px_rgba(0,0,0,0.35)]"
+      style={{
+        backgroundColor: 'var(--bg-header)',
+        borderColor: 'var(--border-soft)',
+        backdropFilter: 'blur(20px)',
+      }}
+    >
       {items.map((item) => {
         const isActive = item.label === activeLabel;
         return (
           <a
             key={item.label}
             href={item.href}
-            className={`group flex flex-1 flex-col items-center gap-1 text-[11px] font-semibold transition ${isActive ? "text-white" : "text-white/55 hover:text-white"}`}
+            className="group flex flex-1 flex-col items-center gap-1 text-[11px] font-semibold transition"
+            style={{
+              color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+            }}
           >
             <span
-              className={`flex h-10 w-10 items-center justify-center rounded-full transition ${isActive ? "bg-white/10" : "bg-white/0 group-hover:bg-white/5"}`}
+              className="flex h-10 w-10 items-center justify-center rounded-full transition"
+              style={{
+                backgroundColor: isActive ? 'var(--accent-soft)' : 'transparent',
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.backgroundColor = 'var(--accent-soft)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }
+              }}
             >
               {item.icon}
             </span>
