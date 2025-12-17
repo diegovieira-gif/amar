@@ -5,9 +5,18 @@ import TopBar from "@/components/TopBar";
 import { useCallback, useState } from "react";
 import Link from "next/link";
 
-function IconStar() {
+type IconProps = React.SVGProps<SVGSVGElement>;
+function IconStar({ className = "h-6 w-6", ...props }: IconProps) {
   return (
-    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="0.5">
+    <svg
+      {...props}
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      stroke="currentColor"
+      strokeWidth="0.5"
+      aria-hidden
+    >
       <polygon points="12 2 15.09 10.26 23.77 10.36 17.13 16.01 19.09 24.29 12 18.54 4.91 24.29 6.87 16.01 0.23 10.36 8.91 10.26 12 2" />
     </svg>
   );

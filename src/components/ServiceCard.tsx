@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 function IconWrench() {
   return (
@@ -77,7 +78,7 @@ function IconChevron() {
   );
 }
 
-const iconMap: Record<string, JSX.Element> = {
+const iconMap: Record<string, ReactNode> = {
   wrench: <IconWrench />,
   sparkles: <IconSparkles />,
   scale: <IconScale />,
