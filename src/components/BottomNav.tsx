@@ -1,0 +1,75 @@
+function IconHome() {
+  return (
+    <svg aria-hidden className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="m4.5 10.5 6.8-5.1a1.2 1.2 0 0 1 1.4 0l6.8 5.1V19a1 1 0 0 1-1 1h-4.5a.8.8 0 0 1-.8-.8v-3.4a.8.8 0 0 0-.8-.8H11a.8.8 0 0 0-.8.8v3.4a.8.8 0 0 1-.8.8H5.8a1 1 0 0 1-1-1Z" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconServices() {
+  return (
+    <svg aria-hidden className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="4" y="6.5" width="16" height="11" rx="2" />
+      <path d="M9.5 9.5h5" strokeLinecap="round" />
+      <path d="M12 6.5v-1" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconHeart() {
+  return (
+    <svg aria-hidden className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path
+        d="M12 19s-6-3.7-6-8.2C6 8 7.8 6.2 10 6.2c1.2 0 2.3.6 3 1.5.7-.9 1.8-1.5 3-1.5 2.2 0 4 1.8 4 4.6 0 4.5-6 8.2-6 8.2Z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function IconUser() {
+  return (
+    <svg aria-hidden className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <circle cx="12" cy="9" r="3.25" />
+      <path d="M6.5 18.6a5.94 5.94 0 0 1 11 0" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconMenu() {
+  return (
+    <svg aria-hidden className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M4.5 7h15M7 12h10.5M9.5 17H19" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+const items = [
+  { label: "Home", icon: <IconHome />, active: true },
+  { label: "Serviços", icon: <IconServices />, active: false },
+  { label: "Favoritos", icon: <IconHeart />, active: false },
+  { label: "Perfil", icon: <IconUser />, active: false },
+  { label: "Menu", icon: <IconMenu />, active: false },
+];
+
+export default function BottomNav() {
+  return (
+    <nav className="fixed bottom-4 left-1/2 z-50 flex w-[min(420px,calc(100%-2rem))] -translate-x-1/2 items-center justify-between rounded-full border border-white/10 bg-neutral-950/85 px-3 py-2.5 backdrop-blur-xl shadow-[0_18px_40px_rgba(0,0,0,0.35)]">
+      {items.map((item) => (
+        <button
+          key={item.label}
+          type="button"
+          className={`group flex flex-1 flex-col items-center gap-1 text-[11px] font-semibold transition ${item.active ? "text-white" : "text-white/55 hover:text-white"}`}
+        >
+          <span
+            className={`flex h-10 w-10 items-center justify-center rounded-full transition ${item.active ? "bg-white/10" : "bg-white/0 group-hover:bg-white/5"}`}
+          >
+            {item.icon}
+          </span>
+          <span className="leading-none">{item.label}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
