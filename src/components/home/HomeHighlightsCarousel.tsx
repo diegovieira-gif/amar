@@ -61,7 +61,14 @@ function SlideCard({
   );
 }
 
-export default function HomeHighlightsCarousel() {
+interface Campanha {
+  id: string;
+  titulo?: string;
+  imagem?: string;
+  link?: string;
+}
+
+export default function HomeHighlightsCarousel({ campanhas = [] }: { campanhas?: Campanha[] }) {
   const router = useRouter();
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const prevRef = useRef<HTMLButtonElement | null>(null);
@@ -105,7 +112,6 @@ export default function HomeHighlightsCarousel() {
             nextEl: nextRef.current,
           }}
           onBeforeInit={(swiper: SwiperType) => {
-            // Bind custom navigation refs when available
             const s = swiper as unknown as {
               params: { navigation: { prevEl: Element | null; nextEl: Element | null } };
               navigation: { init: () => void; update: () => void };
@@ -122,27 +128,31 @@ export default function HomeHighlightsCarousel() {
           }}
           className="!px-1"
         >
-          <SwiperSlide>
-            <SlideCard
-              badge="Novidades no AMAR"
-              title="Novidades no AMAR"
-              description="Descubra melhorias recentes, novos serviços e benefícios exclusivos que chegam ao app."
-              ctaHref="/novidades" /* TODO: criar rota de novidades */
-              ctaLabel="Explorar novidades"
-              onCardClick={() => router.push("/novidades")}
-            />
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <SlideCard
-              badge="Campanhas para mulheres"
-              title="Campanhas para mulheres"
-              description="Exemplos: Outubro Rosa, Agosto Lilás e outras ações de conscientização."
-              ctaHref="/campanhas" /* TODO: criar rota de campanhas */
-              ctaLabel="Ver campanha"
-              onCardClick={() => router.push("/campanhas")}
-            />
-          </SwiperSlide>
+          {campanhas?.length > 0 ? (
+            campanhas.map((campanha) => (
+              <SwiperSlide key={campanha.id}>
+                <SlideCard
+                  badge="Destaque"
+                  title={campanha.titulo || "Campanha"}
+                  description=""
+                  ctaHref={campanha.link || "#"}
+                  ctaLabel="Explorar"
+                  onCardClick={() => router.push(campanha.link || "#")}
+                />
+              </SwiperSlide>
+            ))
+          ) : (
+            <SwiperSlide>
+              <SlideCard
+                badge="Aviso"
+                title="Nenhuma campanha ativa"
+                description=""
+                ctaHref="#"
+                ctaLabel="Voltar"
+                onCardClick={() => {}}
+              />
+            </SwiperSlide>
+          )}
         </Swiper>
       </div>
     </div>
