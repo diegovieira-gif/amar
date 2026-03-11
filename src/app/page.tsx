@@ -22,9 +22,8 @@ export default async function Home() {
         sort: ["ordem"] as any,
       })
     );
-    console.log('🛑 [DEBUG DIRECTUS] Categorias:', categorias);
   } catch (error) {
-    console.log('🛑 [DEBUG DIRECTUS] Erro:', error);
+    console.error('Erro ao buscar categorias:', error);
   }
 
   try {
@@ -35,7 +34,7 @@ export default async function Home() {
       })
     );
   } catch (error) {
-    console.error('🛑 [DEBUG DIRECTUS] Erro ao buscar campanhas:', error);
+    console.error('Erro ao buscar campanhas:', error);
   }
 
   const isErrorOrEmpty = categorias.length === 0;
