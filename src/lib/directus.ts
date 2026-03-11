@@ -1,34 +1,37 @@
 import { createDirectus, rest, staticToken } from '@directus/sdk';
 
-export interface Categoria {
+export interface AmarCategoria {
+  id: string;
+  nome: string;
+  slug: string;
+  icone: string | null;
+  cor_hex: string | null;
+  ordem: number | null;
+  status: string;
+}
+
+export interface AmarServico {
   id: string;
   status?: string;
   nome?: string;
   descricao?: string;
-  icone?: string;
-  cor?: string;
+  categoria?: string | AmarCategoria;
 }
 
-export interface Servico {
+export interface AmarCampanha {
   id: string;
-  status?: string;
-  nome?: string;
-  descricao?: string;
-  categoria?: string | Categoria;
-}
-
-export interface Campanha {
-  id: string;
-  status?: string;
-  titulo?: string;
-  imagem?: string;
-  link?: string;
+  titulo: string;
+  imagem_capa: string | null;
+  link_destino: string | null;
+  data_inicio: string | null;
+  data_fim: string | null;
+  status: string;
 }
 
 export interface Schema {
-  amar_categorias: Categoria[];
-  amar_servicos: Servico[];
-  amar_campanhas: Campanha[];
+  amar_categorias: AmarCategoria[];
+  amar_servicos: AmarServico[];
+  amar_campanhas: AmarCampanha[];
 }
 
 const directusUrl = process.env.NEXT_PUBLIC_DIRECTUS_URL || 'http://localhost:8055';

@@ -7,16 +7,19 @@ import Link from "next/link";
 import CategoryChip from "@/components/CategoryChip";
 import HomeHighlightsCarousel from "@/components/home/HomeHighlightsCarousel";
 
+// Configuração do ISR
 export const revalidate = 60;
 
 export default async function Home() {
+  // Fetch das categorias (amar_categorias) ordenando pelo campo ordem e filtrando por status: 'published'
   const categorias = await directus.request(
     readItems("amar_categorias", {
       filter: { status: { _eq: "published" } },
-      sort: ["sort"] as any,
+      sort: ["ordem"] as any,
     })
   ).catch(() => []);
 
+  // Fetch das campanhas (amar_campanhas) filtrando por status: 'published'
   const campanhas = await directus.request(
     readItems("amar_campanhas", {
       filter: { status: { _eq: "published" } },
@@ -45,7 +48,7 @@ export default async function Home() {
           <div className="flex flex-wrap gap-3">
             {categorias.length > 0 ? (
               categorias.map((cat) => (
-                <Link key={cat.id} href={`/categorias/${cat.id}`}>
+                <Link key={cat.id} href={`/servicos/${cat.slug || cat.id}`}>
                   <CategoryChip label={cat.nome || "Categoria"} />
                 </Link>
               ))

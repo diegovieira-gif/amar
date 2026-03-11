@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, A11y, Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
+import Image from "next/image";
 
 // Swiper styles (scoped import is fine for App Router)
 import "swiper/css";
@@ -16,6 +17,7 @@ function SlideCard({
   badge,
   title,
   description,
+  imagemCapa,
   ctaHref,
   ctaLabel,
   onCardClick,
@@ -23,24 +25,50 @@ function SlideCard({
   badge: string;
   title: string;
   description: string;
+  imagemCapa?: string | null;
   ctaHref: string;
   ctaLabel: string;
   onCardClick: () => void;
 }) {
+  // Construção do endereço da imagem usando a API de assets do Directus
+  const directusUrl = process.env.NEXT_PUBLIC_DIRECTUS_URL || 'http://localhost:8055';
+  const imageUrl = imagemCapa ? `${directusUrl}/assets/${imagemCapa}` : null;
+
   return (
     <div
       onClick={onCardClick}
-      className="group cursor-pointer rounded-2xl bg-gradient-to-br from-pink-50 to-violet-50 p-6 shadow-md ring-1 ring-black/5 dark:from-pink-900/20 dark:to-violet-900/20"
+      className="group cursor-pointer rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 dark:ring-white/10 flex flex-col"
       style={{ color: "var(--text-primary)" }}
     >
-      <div className="flex flex-col gap-4">
-        <span className="inline-flex items-center rounded-full bg-pink-100 px-3 py-1 text-xs font-semibold text-pink-700 ring-1 ring-pink-200 dark:bg-pink-900/40 dark:text-pink-200 dark:ring-pink-800">
-          {badge}
-        </span>
-        <h3 className="text-2xl font-semibold tracking-tight">{title}</h3>
-        <p className="text-sm opacity-80">{description}</p>
-        <div className="mt-2 flex flex-wrap gap-3">
-          {/* Use next/link for CTA. If the route doesn't exist yet, this will 404. TODO: wire routes when available. */}
+      {/* Imagem de Capa ou Fallback Visual (Gradiente) */}
+      <div className="relative h-48 w-full">
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-pink-400 to-violet-500 flex items-center justify-center p-6 text-center">
+            <h3 className="text-white text-2xl font-bold shadow-sm">{title}</h3>
+          </div>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-4 p-6 bg-white dark:bg-gray-900 flex-1">
+        <div className="flex items-center">
+          <span className="inline-flex items-center rounded-full bg-pink-100 px-3 py-1 text-xs font-semibold text-pink-700 ring-1 ring-pink-200 dark:bg-pink-900/40 dark:text-pink-200 dark:ring-pink-800">
+            {badge}
+          </span>
+        </div>
+        
+        {/* Mostra um título menor em baixo apenas se a imagem_capa existir, pois o fallback já mostra o título grande. */}
+        {imageUrl && <h3 className="text-xl font-semibold tracking-tight">{title}</h3>}
+        
+        {description && <p className="text-sm opacity-80">{description}</p>}
+        
+        <div className="mt-auto pt-2 flex flex-wrap gap-3">
           <Link
             href={ctaHref || "#"}
             onClick={(e) => e.stopPropagation()}
@@ -64,8 +92,8 @@ function SlideCard({
 interface Campanha {
   id: string;
   titulo?: string;
-  imagem?: string;
-  link?: string;
+  imagem_capa?: string | null;
+  link_destino?: string | null;
 }
 
 export default function HomeHighlightsCarousel({ campanhas = [] }: { campanhas?: Campanha[] }) {
@@ -77,7 +105,7 @@ export default function HomeHighlightsCarousel({ campanhas = [] }: { campanhas?:
     <div className="w-full">
       <div className="relative">
         {/* Custom navigation for desktop only */}
-        <div className="pointer-events-none absolute inset-y-1/2 -translate-y-1/2 hidden w-full items-center justify-between px-2 lg:flex">
+        <div className="pointer-events-none absolute inset-y-1/2 -translate-y-1/2 hidden w-full items-center justify-between px-2 lg:flex z-10">
           <button
             ref={prevRef}
             className="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-gray-900 shadow-md ring-1 ring-black/10 backdrop-blur hover:bg-white lg:hover:scale-105"
@@ -126,7 +154,7 @@ export default function HomeHighlightsCarousel({ campanhas = [] }: { campanhas?:
               slidesPerView: 1, // keep single slide, centered
             },
           }}
-          className="!px-1"
+          className="!px-1 !pb-10" // added padding bottom for pagination bullets
         >
           {campanhas?.length > 0 ? (
             campanhas.map((campanha) => (
@@ -135,9 +163,10 @@ export default function HomeHighlightsCarousel({ campanhas = [] }: { campanhas?:
                   badge="Destaque"
                   title={campanha.titulo || "Campanha"}
                   description=""
-                  ctaHref={campanha.link || "#"}
+                  imagemCapa={campanha.imagem_capa}
+                  ctaHref={campanha.link_destino || "#"}
                   ctaLabel="Explorar"
-                  onCardClick={() => router.push(campanha.link || "#")}
+                  onCardClick={() => router.push(campanha.link_destino || "#")}
                 />
               </SwiperSlide>
             ))
@@ -147,6 +176,7 @@ export default function HomeHighlightsCarousel({ campanhas = [] }: { campanhas?:
                 badge="Aviso"
                 title="Nenhuma campanha ativa"
                 description=""
+                imagemCapa={null}
                 ctaHref="#"
                 ctaLabel="Voltar"
                 onCardClick={() => {}}
