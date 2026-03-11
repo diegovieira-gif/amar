@@ -34,9 +34,6 @@ export interface Schema {
   amar_campanhas: AmarCampanha[];
 }
 
-const directusUrl = process.env.NEXT_PUBLIC_DIRECTUS_URL || 'http://localhost:8055';
-const directusToken = process.env.DIRECTUS_TOKEN || '';
-
-export const directus = createDirectus<Schema>(directusUrl)
-  .with(staticToken(directusToken))
-  .with(rest());
+export const directus = createDirectus<Schema>(process.env.NEXT_PUBLIC_DIRECTUS_URL!)
+  .with(rest())
+  .with(staticToken(process.env.DIRECTUS_TOKEN!));

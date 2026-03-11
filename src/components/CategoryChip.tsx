@@ -1,12 +1,19 @@
+"use client";
+
 import React from "react";
 
 export type CategoryChipProps = {
-  label: string;
+  nome?: string;
+  label?: string; // Mantido para não quebrar o page.tsx atual
+  slug?: string;
+  icone?: string | null;
+  cor_hex?: string | null;
   active?: boolean;
-  icone?: string; // Directus icone
 };
 
-export default function CategoryChip({ label, active = false, icone }: CategoryChipProps) {
+export default function CategoryChip({ nome, label, slug, icone, cor_hex, active = false }: CategoryChipProps) {
+  const displayNome = nome || label;
+
   return (
     <button
       type="button"
@@ -14,7 +21,7 @@ export default function CategoryChip({ label, active = false, icone }: CategoryC
       style={
         active
           ? {
-              backgroundColor: 'var(--accent)',
+              backgroundColor: cor_hex || 'var(--accent)',
               color: 'white',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
             }
@@ -39,7 +46,7 @@ export default function CategoryChip({ label, active = false, icone }: CategoryC
           {icone}
         </span>
       )}
-      {label}
+      {displayNome}
     </button>
   );
 }

@@ -1,3 +1,5 @@
+"use client";
+
 type SurfaceCardProps = {
   title: string;
   subtitle: string;
