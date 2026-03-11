@@ -1,8 +1,6 @@
-"use client";
-
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
-import { getTopicById, getThreadsByTopicId } from "@/lib/amar-mocks";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type PageProps = {
@@ -23,13 +21,27 @@ function IconHeart() {
 
 export default async function CommunityTopicPage({ params }: PageProps) {
   const { id } = await params;
-  const topic = getTopicById(id);
+  
+  // Como os mocks foram removidos, usamos dados estáticos (placeholder)
+  // até a integração da comunidade no Directus.
+  const topic = {
+    id: id,
+    title: "Tópico de Discussão",
+    description: "Espaço para compartilhar ideias e experiências sobre este tema na comunidade.",
+  };
 
-  if (!topic) {
-    notFound();
-  }
-
-  const threads = getThreadsByTopicId(id);
+  const threads = [
+    {
+      id: "thread-1",
+      topicId: id,
+      author: "Moderador",
+      role: "Equipe",
+      content: "Em breve, integração completa com o fórum de discussões.",
+      timestamp: "Em desenvolvimento",
+      likes: 0,
+      replies: 0,
+    }
+  ];
 
   return (
     <div className="relative flex min-h-screen flex-col bg-neutral-950">
@@ -87,14 +99,21 @@ export default async function CommunityTopicPage({ params }: PageProps) {
           <h3 className="font-semibold text-neutral-900">Escrever mensagem</h3>
           <textarea
             readOnly
-            placeholder="Compartilhe sua experiência ou dúvida com a comunidade..."
-            className="w-full resize-none rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm text-neutral-600 placeholder:text-neutral-400 focus:outline-none"
+            placeholder="A funcionalidade de comentários será liberada em breve..."
+            className="w-full resize-none rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm text-neutral-600 placeholder:text-neutral-400 focus:outline-none opacity-60"
             rows={4}
           />
-          <button className="w-full rounded-full bg-neutral-900 px-4 py-3 font-semibold text-white transition hover:bg-neutral-800">
-            Publicar
+          <button disabled className="w-full rounded-full bg-neutral-700 px-4 py-3 font-semibold text-white/60 cursor-not-allowed">
+            Publicar (Em Breve)
           </button>
         </div>
+        
+        <div className="flex flex-col items-center">
+            <Link href="/comunidade" className="text-sm font-medium text-white/70 hover:text-white transition-colors underline">
+                🔙 Voltar para a Comunidade
+            </Link>
+        </div>
+
       </main>
       <BottomNav />
     </div>

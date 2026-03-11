@@ -52,6 +52,12 @@ function getIconComponent(iconKey: string) {
 }
 
 export default function ServicesPage() {
+  const pillars = [
+    { id: "assistencia", title: "Assistência Social", description: "Apoio e acolhimento", iconKey: "shield" },
+    { id: "saude", title: "Saúde e Bem-estar", description: "Serviços médicos", iconKey: "heart" },
+    { id: "educacao", title: "Educação", description: "Cursos e workshops", iconKey: "book" }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
       <TopBar />

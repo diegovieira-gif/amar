@@ -23,6 +23,12 @@ function IconAlertCircle() {
 }
 
 export default function CanalsDenunciaProtecaoPage() {
+  const hotlineNumbers = [
+    { number: "180", label: "Central de Atendimento à Mulher", description: "Serviço escuta e acolhe denúncias de violência contra a mulher." },
+    { number: "190", label: "Polícia Militar", description: "Para situações de risco imediato e emergência." },
+    { number: "100", label: "Disque Direitos Humanos", description: "Para denunciar violações de direitos humanos." }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col bg-neutral-950">
       <TopBar />

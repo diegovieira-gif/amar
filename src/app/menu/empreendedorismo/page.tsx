@@ -46,6 +46,11 @@ function getIconComponent(iconKey: string) {
 }
 
 export default function EmpreendedorismoPage() {
+  const entrepreneurshipServices = [
+    { id: "1", title: "Mentoria de Negócios", description: "Orientação especializada para seu negócio.", icon: "trending-up" },
+    { id: "2", title: "Apoio Financeiro", description: "Dicas de crédito e gestão.", icon: "credit-card" }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col bg-neutral-950">
       <TopBar />

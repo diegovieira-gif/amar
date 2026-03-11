@@ -39,6 +39,18 @@ function IconUsers() {
 }
 
 export default function CursosPage() {
+  const events = [
+    {
+      id: "e1",
+      title: "Oficina de Formação",
+      description: "Capacitação sobre liderança comunitária.",
+      date: "20/05/2026",
+      time: "10:00",
+      location: "Auditório Central",
+      capacity: 50
+    }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
       <TopBar />

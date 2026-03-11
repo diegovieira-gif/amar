@@ -54,6 +54,12 @@ const iconComponents: Record<string, React.ReactNode> = {
 };
 
 export default function CentralAtendimentoPage() {
+  const contactChannels = [
+    { label: "WhatsApp", value: "(11) 99999-9999", icon: "message-circle" },
+    { label: "Telefone", value: "0800 123 456", icon: "phone" },
+    { label: "E-mail", value: "atendimento@prefeitura.gov.br", icon: "message-circle" }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col bg-neutral-950">
       <TopBar />

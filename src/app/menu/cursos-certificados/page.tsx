@@ -30,6 +30,11 @@ function IconCheck() {
 }
 
 export default function CursosCertificadosPage() {
+  const courses = [
+    { id: "1", title: "Tecnologia Básica", description: "Aprenda o básico de informática.", duration: "40 horas", status: "available" },
+    { id: "2", title: "Liderança Comunitária", description: "Desenvolva habilidades de liderança.", duration: "20 horas", status: "soon" }
+  ];
+
   const availableCourses = courses.filter(c => c.status === "available");
   const soonCourses = courses.filter(c => c.status === "soon");
 

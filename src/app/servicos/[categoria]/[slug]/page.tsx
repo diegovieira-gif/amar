@@ -1,11 +1,11 @@
-"use client";
-
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
-import { getServiceBySlug, getCategoryById } from "@/lib/amar-mocks";
-import { notFound, useRouter } from "next/navigation";
+import { directus } from "@/lib/directus";
+import { readItems } from "@directus/sdk";
+import { notFound } from "next/navigation";
 import Link from "next/link";
-import { useState, useMemo, useEffect } from "react";
+
+export const revalidate = 60;
 
 type PageProps = {
   params: Promise<{ categoria: string; slug: string }>;
@@ -19,49 +19,54 @@ function IconArrowLeft() {
   );
 }
 
-export default function ServiceDetailPage({ params }: PageProps) {
-  const router = useRouter();
-  const [categoria, setCategoria] = useState<string | null>(null);
-  const [slug, setSlug] = useState<string | null>(null);
+export default async function ServiceDetailPage({ params }: PageProps) {
+  const { categoria: categoriaSlug, slug: serviceSlug } = await params;
 
-  useMemo(() => {
-    params.then(p => {
-      setCategoria(p.categoria);
-      setSlug(p.slug);
-    });
-  }, [params]);
+  let category = null;
+  let service = null;
 
-  const service = slug ? getServiceBySlug(slug) : null;
-  const category = categoria ? getCategoryById(categoria) : null;
-
-  useEffect(() => {
-    if (service && categoria && service.pillarId !== categoria) {
-      notFound();
-    }
-  }, [service, categoria]);
-
-  if (!categoria || !slug) {
-    return (
-      <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
-        <TopBar />
-        <main className="relative flex flex-1 flex-col items-center justify-center pb-32 pt-24">
-          <p style={{ color: 'var(--text-secondary)' }}>Carregando...</p>
-        </main>
-        <BottomNav />
-      </div>
+  try {
+    const categories = await directus.request(
+      readItems("amar_categorias", {
+        filter: { slug: { _eq: categoriaSlug } },
+        limit: 1,
+      })
     );
+    category = categories[0] || null;
+
+    if (category) {
+      const services = await directus.request(
+        readItems("amar_servicos", {
+          filter: {
+            slug: { _eq: serviceSlug },
+            status: { _eq: "published" },
+          },
+          fields: ["*"],
+          limit: 1,
+        })
+      );
+      service = services[0] || null;
+    }
+  } catch (error) {
+    console.error("Error fetching service details:", error);
   }
 
-  if (!service || !category) {
+  if (!category || !service) {
     notFound();
   }
+
+  const title = (service as any).nome || (service as any).title || "Serviço";
+  const desc = (service as any).descricao || (service as any).description || "";
+  const catTitle = (category as any).nome || (category as any).title || (category as any).slug;
+  const howItWorks = (service as any).como_funciona || (service as any).howItWorks || "Entre em contato para saber como funciona este serviço.";
+  const contact = (service as any).contato || (service as any).contact || "Clique em continuar para prosseguir ou contatar nossa central.";
 
   return (
     <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
       <TopBar />
       <main className="relative flex flex-1 flex-col gap-6 pb-32 pt-24">
         <Link 
-          href={`/servicos/${categoria}`} 
+          href={`/servicos/${categoriaSlug}`} 
           className="inline-flex w-fit items-center gap-2 transition hover:opacity-80" 
           style={{ color: 'var(--text-secondary)' }}
         >
@@ -78,11 +83,11 @@ export default function ServiceDetailPage({ params }: PageProps) {
           </div>
           <div className="relative flex flex-col gap-3" style={{ color: 'var(--text-primary)' }}>
             <span className="text-xs font-medium uppercase tracking-[0.3em]" style={{ color: 'var(--text-muted)' }}>
-              {category.title}
+              {catTitle}
             </span>
-            <h1 className="text-2xl font-semibold leading-tight">{service.title}</h1>
+            <h1 className="text-2xl font-semibold leading-tight">{title}</h1>
             <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              {service.description}
+              {desc}
             </p>
           </div>
         </section>
@@ -92,7 +97,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
             Sobre este serviço
           </h2>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
-            {service.description}
+            {desc}
           </p>
         </div>
 
@@ -101,7 +106,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
             Como funciona
           </h2>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
-            {service.howItWorks}
+            {howItWorks}
           </p>
         </div>
 
@@ -110,7 +115,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
             Próximos passos
           </h2>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
-            {service.contact}
+            {contact}
           </p>
         </div>
 

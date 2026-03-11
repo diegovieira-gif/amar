@@ -46,6 +46,12 @@ const timeline = [
 ];
 
 export default function AssistenciaDeliveryPage() {
+  const assistanceServices: any[] = [
+    { id: "1", title: "Cestas Básicas", description: "Apoio alimentar", icon: "package" },
+    { id: "2", title: "Medicamentos", description: "Auxílio saúde", icon: "heart" },
+    { id: "3", title: "Roupas e Agasalhos", description: "Doação de vestuário", icon: "shield-alert" }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col bg-neutral-950">
       <TopBar />

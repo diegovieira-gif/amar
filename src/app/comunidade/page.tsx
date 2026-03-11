@@ -38,6 +38,16 @@ function IconCalendar() {
 }
 
 export default function ComunidadePage() {
+  const surveys = [
+    { id: "1", status: "active", title: "Pesquisa de Satisfação", description: "Avalie nosso atendimento.", respondents: 120 }
+  ];
+  const events = [
+    { id: "e1", title: "Oficina de Capacitação", description: "Aprenda novas habilidades.", date: "15/04/2026", time: "14:00", location: "Sede Central" }
+  ];
+  const communityTopics = [
+    { id: "t1", title: "Dúvidas Gerais", description: "Espaço para dúvidas.", messagesCount: 45, lastActivity: "Hoje" }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
       <TopBar />
