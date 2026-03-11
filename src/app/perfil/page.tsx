@@ -51,6 +51,15 @@ function IconTrendingUp() {
 }
 
 export default function PerfilPage() {
+  const userProfileMock = {
+    name: "Cidadão Exemplo",
+    neighborhood: "Centro",
+    status: "Ativo",
+    coursesCompleted: 2,
+    eventsAttended: 5,
+    servicesAccessed: 3
+  };
+
   return (
     <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
       <TopBar />
