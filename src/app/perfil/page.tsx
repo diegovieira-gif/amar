@@ -2,7 +2,6 @@
 
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
-import { userProfileMock } from "@/lib/amar-mocks";
 import Link from "next/link";
 
 function IconEdit() {

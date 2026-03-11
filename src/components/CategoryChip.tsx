@@ -1,13 +1,16 @@
-type CategoryChipProps = {
+import React from "react";
+
+export type CategoryChipProps = {
   label: string;
   active?: boolean;
+  icone?: string; // Directus icone
 };
 
-export default function CategoryChip({ label, active = false }: CategoryChipProps) {
+export default function CategoryChip({ label, active = false, icone }: CategoryChipProps) {
   return (
     <button
       type="button"
-      className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition"
+      className="shrink-0 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition"
       style={
         active
           ? {
@@ -31,6 +34,11 @@ export default function CategoryChip({ label, active = false }: CategoryChipProp
         }
       }}
     >
+      {icone && (
+        <span className="material-symbols-rounded text-base">
+          {icone}
+        </span>
+      )}
       {label}
     </button>
   );

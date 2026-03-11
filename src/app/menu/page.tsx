@@ -3,7 +3,6 @@
 import Link from "next/link";
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
-import { menuItems } from "@/lib/amar-mocks";
 
 function IconChevronRight() {
   return (

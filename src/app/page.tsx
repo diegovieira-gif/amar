@@ -7,27 +7,46 @@ import Link from "next/link";
 import CategoryChip from "@/components/CategoryChip";
 import HomeHighlightsCarousel from "@/components/home/HomeHighlightsCarousel";
 
-// Configuração do ISR
-export const revalidate = 60;
+// Desativando o cache temporariamente
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  // Fetch das categorias (amar_categorias) ordenando pelo campo ordem e filtrando por status: 'published'
-  const categorias = await directus.request(
-    readItems("amar_categorias", {
-      filter: { status: { _eq: "published" } },
-      sort: ["ordem"] as any,
-    })
-  ).catch(() => []);
+  let categorias: any[] = [];
+  let campanhas: any[] = [];
 
-  // Fetch das campanhas (amar_campanhas) filtrando por status: 'published'
-  const campanhas = await directus.request(
-    readItems("amar_campanhas", {
-      filter: { status: { _eq: "published" } },
-    })
-  ).catch(() => []);
+  try {
+    // Fetch das categorias (amar_categorias) ordenando pelo campo ordem e filtrando por status: 'published'
+    categorias = await directus.request(
+      readItems("amar_categorias", {
+        filter: { status: { _eq: "published" } },
+        sort: ["ordem"] as any,
+      })
+    );
+    console.log('🛑 [DEBUG DIRECTUS] Categorias:', categorias);
+  } catch (error) {
+    console.log('🛑 [DEBUG DIRECTUS] Erro:', error);
+  }
+
+  try {
+    // Fetch das campanhas (amar_campanhas) filtrando por status: 'published'
+    campanhas = await directus.request(
+      readItems("amar_campanhas", {
+        filter: { status: { _eq: "published" } },
+      })
+    );
+  } catch (error) {
+    console.error('🛑 [DEBUG DIRECTUS] Erro ao buscar campanhas:', error);
+  }
+
+  const isErrorOrEmpty = categorias.length === 0;
 
   return (
     <div className="relative flex min-h-screen flex-col bg-[var(--bg-app)]">
+      {isErrorOrEmpty && (
+        <div className="bg-red-500 text-white p-4 font-bold text-center">
+          Nenhum dado vindo da API! Verifique o Terminal.
+        </div>
+      )}
       <TopBar />
       <main className="relative flex flex-1 flex-col gap-6 pb-32 pt-20 px-4">
         <Hero />
@@ -49,7 +68,7 @@ export default async function Home() {
             {categorias.length > 0 ? (
               categorias.map((cat) => (
                 <Link key={cat.id} href={`/servicos/${cat.slug || cat.id}`}>
-                  <CategoryChip label={cat.nome || "Categoria"} />
+                  <CategoryChip label={cat.nome || "Categoria"} icone={cat.icone} />
                 </Link>
               ))
             ) : (

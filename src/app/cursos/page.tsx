@@ -2,7 +2,6 @@
 
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
-import { events } from "@/lib/amar-mocks";
 
 function IconCalendar() {
   return (

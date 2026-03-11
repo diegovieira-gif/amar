@@ -3,7 +3,6 @@
 import BottomNav from "@/components/BottomNav";
 import SurfaceCard from "@/components/SurfaceCard";
 import TopBar from "@/components/TopBar";
-import { communityTopics, surveys, events } from "@/lib/amar-mocks";
 import Link from "next/link";
 
 function IconComments() {
