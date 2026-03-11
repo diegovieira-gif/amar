@@ -141,7 +141,7 @@ function getIconComponent(iconKey: string | undefined) {
       </svg>
     ),
   };
-  return icons[iconKey] || icons.heart;
+  return icons[iconKey] ? icons[iconKey] : <span className="material-symbols-outlined text-2xl">{iconKey}</span>;
 }
 
 export default function ServiceListClient({ category, services }: Props) {

@@ -42,7 +42,7 @@ export default function CategoryChip({ nome, label, slug, icone, cor_hex, active
       }}
     >
       {icone && (
-        <span className="material-symbols-rounded text-base">
+        <span className="material-symbols-outlined text-base">
           {icone}
         </span>
       )}

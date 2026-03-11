@@ -99,7 +99,7 @@ type ServiceCardProps = {
 };
 
 export default function ServiceCard({ slug, title, description, iconKey }: ServiceCardProps) {
-  const icon = iconMap[iconKey] || iconMap.wrench;
+  const icon = iconMap[iconKey];
 
   return (
     <Link href={`/servicos/${slug}`}>
@@ -111,7 +111,7 @@ export default function ServiceCard({ slug, title, description, iconKey }: Servi
           className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white"
           style={{ backgroundColor: 'var(--button-primary-bg)' }}
         >
-          {icon}
+          {icon ? icon : <span className="material-symbols-outlined text-2xl">{iconKey || 'wrench'}</span>}
         </div>
         <div className="flex flex-1 flex-col gap-1">
           <h3 className="text-base font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
