@@ -24,6 +24,11 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 ENV NEXT_TELEMETRY_DISABLED 1
 
+ARG NEXT_PUBLIC_DIRECTUS_URL
+ARG DIRECTUS_TOKEN
+ENV NEXT_PUBLIC_DIRECTUS_URL=$NEXT_PUBLIC_DIRECTUS_URL
+ENV DIRECTUS_TOKEN=$DIRECTUS_TOKEN
+
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
