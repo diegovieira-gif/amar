@@ -64,6 +64,16 @@ function getIconComponent(iconKey: string) {
 }
 
 export default function MenuPage() {
+  const menuItems = [
+    { id: "1", label: "Central de Atendimento", description: "Fale conosco", href: "/menu/central-atendimento", iconKey: "headphones" },
+    { id: "2", label: "Empreendedorismo", description: "Apoio ao seu negócio", href: "/menu/empreendedorismo", iconKey: "briefcase" },
+    { id: "3", label: "Cursos e Certificados", description: "Suas capacitações", href: "/menu/cursos-certificados", iconKey: "award" },
+    { id: "4", label: "Canais de Denúncia", description: "Proteção e denúncia segura", href: "/menu/canais-denuncia-protecao", iconKey: "shield-check" },
+    { id: "5", label: "Assistência Delivery", description: "Apoio e entregas", href: "/menu/assistencia-delivery", iconKey: "heart-hands" },
+    { id: "6", label: "Sobre o App", description: "Mais sobre o AMAR", href: "/menu/sobre", iconKey: "info" },
+    { id: "7", label: "Termos e Privacidade", description: "Nossas políticas", href: "/menu/termos-privacidade", iconKey: "alert" }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col bg-neutral-950">
       <TopBar />

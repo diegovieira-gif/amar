@@ -21,6 +21,11 @@ const partners = [
 ];
 
 export default function SobreAmarPage() {
+  const aboutSections = [
+    { id: "1", title: "Nossa Missão", content: ["Promover a participação social e o bem-estar comunitário."] },
+    { id: "2", title: "Nossa Visão", content: ["Uma sociedade igualitária com acesso a serviços para todos."] }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col bg-neutral-950">
       <TopBar />

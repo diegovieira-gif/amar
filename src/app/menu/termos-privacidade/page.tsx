@@ -13,6 +13,11 @@ function IconArrowLeft() {
 }
 
 export default function TermosPrivacidadePage() {
+  const termsSections = [
+    { id: "1", title: "Coleta de Dados", content: "Coletamos informações para melhorar sua experiência." },
+    { id: "2", title: "Uso das Informações", content: "Suas informações são utilizadas apenas no aplicativo." }
+  ];
+
   return (
     <div className="relative flex min-h-screen flex-col bg-neutral-950">
       <TopBar />
