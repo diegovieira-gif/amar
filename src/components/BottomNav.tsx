@@ -54,7 +54,7 @@ export default function BottomNav() {
 
   const getActiveLabel = (path: string): string => {
     if (path.startsWith("/servicos")) return "Serviços";
-    if (path.startsWith("/comunidade")) return "Comunidade";
+    if (path.startsWith("/sonho")) return "Sonho";
     if (path.startsWith("/cursos")) return "Cursos";
     if (path.startsWith("/perfil")) return "Perfil";
     if (path.startsWith("/menu")) return "Menu";
@@ -66,7 +66,7 @@ export default function BottomNav() {
   const items = [
     { label: "Home", icon: <IconHome />, href: "/" },
     { label: "Serviços", icon: <IconServices />, href: "/servicos" },
-    { label: "Comunidade", icon: <IconMenu />, href: "/comunidade" },
+    { label: "Sonho", icon: <span className="material-symbols-outlined">stars</span>, href: "/sonho" },
     { label: "Cursos", icon: <IconHeart />, href: "/cursos" },
     { label: "Perfil", icon: <IconUser />, href: "/perfil" },
   ];

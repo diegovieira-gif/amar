@@ -12,7 +12,7 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const DEFAULT_THEME: Theme = 'dark';
+const DEFAULT_THEME: Theme = 'pink';
 const STORAGE_KEY = 'amar_theme';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {

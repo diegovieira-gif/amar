@@ -57,6 +57,35 @@ export default async function Home() {
           </h2>
           <HomeHighlightsCarousel campanhas={campanhas} />
         </section>
+
+        {/* Banner Instagram */}
+        <section className="mt-2">
+          <a
+            href="https://www.instagram.com/sermulheraju"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 rounded-3xl p-6 transition-all hover:scale-[1.02] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+            style={{
+              background: 'linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%)',
+              color: 'white'
+            }}
+          >
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md">
+              <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </div>
+            <div className="flex flex-1 flex-col gap-0.5">
+              <h3 className="text-base font-bold">Siga a Secretaria da Mulher!</h3>
+              <p className="text-sm opacity-90 leading-tight">Fique por dentro de nossos projetos e ações.</p>
+            </div>
+            <div className="shrink-0">
+              <span className="material-symbols-outlined">open_in_new</span>
+            </div>
+          </a>
+        </section>
         
         {/* Categorias */}
         <section className="mt-2 mb-6">

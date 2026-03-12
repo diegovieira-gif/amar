@@ -115,8 +115,9 @@ export default function TopBar() {
       <IconButton ariaLabel="Abrir menu">
         <IconHamburger />
       </IconButton>
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex flex-1 flex-col items-center justify-center">
         <span className="text-sm font-semibold uppercase tracking-[0.28em]" style={{ color: 'var(--text-secondary)' }}>AMAR</span>
+        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider opacity-70">Aplicativo da Mulher Aracajuana</span>
       </div>
       <div className="flex items-center gap-1">
         <IconButton

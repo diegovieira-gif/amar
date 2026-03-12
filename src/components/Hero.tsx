@@ -27,16 +27,16 @@ export default function Hero() {
           className="text-xs font-medium uppercase tracking-[0.3em]"
           style={{ color: 'var(--text-secondary)' }}
         >
-          Experiência premium
+          Acolhimento e Fortalecimento
         </span>
         <h1 className="text-3xl font-semibold leading-tight" style={{ color: 'var(--text-primary)' }}>
-          Bem-vindo ao AMAR
+          Bem-vinda ao AMAR
         </h1>
         <p
           className="max-w-xl text-base leading-relaxed"
           style={{ color: 'var(--text-secondary)' }}
         >
-          Curadoria de bem-estar, serviços sob medida e benefícios exclusivos que acompanham você no ritmo urbano.
+          Um espaço seguro e integrado da Prefeitura de Aracaju, criado para acolher, orientar e fortalecer você.
         </p>
       </div>
     </section>

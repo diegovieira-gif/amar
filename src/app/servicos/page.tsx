@@ -48,7 +48,7 @@ function getIconComponent(iconKey: string) {
       </svg>
     ),
   };
-  return icons[iconKey] ? icons[iconKey] : <span className="material-symbols-outlined text-2xl">{iconKey}</span>;
+  return icons[iconKey] ? icons[iconKey] : <span className="material-symbols-outlined">{iconKey}</span>;
 }
 
 export default function ServicesPage() {
