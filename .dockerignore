@@ -50,6 +50,4 @@ LICENSE
 
 # Root configuration files (optional to include)
 eslint.config.mjs
-postcss.config.mjs
-tailwind.config.js
-next-env.d.ts
+
