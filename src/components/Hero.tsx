@@ -36,7 +36,7 @@ export default function Hero() {
           className="max-w-xl text-base leading-relaxed"
           style={{ color: 'var(--text-secondary)' }}
         >
-          Um espaço seguro e integrado da Prefeitura de Aracaju, criado para acolher, orientar e fortalecer você.
+          Um espaço seguro e integrado da Sermulher (Secretaria Municipal do Respeito às Políticas para as Mulheres), criado para acolher, orientar e fortalecer você.
         </p>
       </div>
     </section>

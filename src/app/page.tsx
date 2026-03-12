@@ -64,11 +64,7 @@ export default async function Home() {
             href="https://www.instagram.com/sermulheraju"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-4 rounded-3xl p-6 transition-all hover:scale-[1.02] shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
-            style={{
-              background: 'linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%)',
-              color: 'white'
-            }}
+            className="flex items-center gap-4 rounded-3xl p-6 transition-all hover:scale-[1.02] shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white no-underline"
           >
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md">
               <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -78,7 +74,7 @@ export default async function Home() {
               </svg>
             </div>
             <div className="flex flex-1 flex-col gap-0.5">
-              <h3 className="text-base font-bold">Siga a Secretaria da Mulher!</h3>
+              <h3 className="text-base font-bold">Siga a SERMULHER</h3>
               <p className="text-sm opacity-90 leading-tight">Fique por dentro de nossos projetos e ações.</p>
             </div>
             <div className="shrink-0">

@@ -47,6 +47,11 @@ function getIconComponent(iconKey: string) {
         <path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
+    heart: (
+      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <path d="M12 19s-6-3.7-6-8.2C6 8 7.8 6.2 10 6.2c1.2 0 2.3.6 3 1.5.7-.9 1.8-1.5 3-1.5 2.2 0 4 1.8 4 4.6 0 4.5-6 8.2-6 8.2Z" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
   };
   return icons[iconKey] ? icons[iconKey] : <span className="material-symbols-outlined">{iconKey}</span>;
 }
