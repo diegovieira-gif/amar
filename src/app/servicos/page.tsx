@@ -58,9 +58,10 @@ function getIconComponent(iconKey: string) {
 
 export default function ServicesPage() {
   const pillars = [
-    { id: "assistencia", title: "Assistência Social", description: "Apoio e acolhimento", iconKey: "shield" },
-    { id: "saude", title: "Saúde e Bem-estar", description: "Serviços médicos", iconKey: "heart" },
-    { id: "educacao", title: "Educação", description: "Cursos e workshops", iconKey: "book" }
+    { id: "orientacoes-juridicas", title: "Orientações Jurídicas", description: "Assistência e aconselhamento legal", iconKey: "briefcase" },
+    { id: "orientacoes-psicologicas", title: "Orientações Psicológicas", description: "Apoio à saúde mental e emocional", iconKey: "heart" },
+    { id: "orientacoes-assistenciais", title: "Orientações Assistenciais", description: "Apoio social e garantia de direitos", iconKey: "users" },
+    { id: "ouvidoria", title: "Ouvidoria", description: "Canal de atendimento e escuta ativa", iconKey: "alert" }
   ];
 
   return (
