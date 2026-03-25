@@ -5,7 +5,8 @@ import { readItems } from "@directus/sdk";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 type PageProps = {
   params: Promise<{ categoria: string; slug: string }>;

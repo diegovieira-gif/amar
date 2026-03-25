@@ -7,8 +7,8 @@ import Link from "next/link";
 import CategoryChip from "@/components/CategoryChip";
 import HomeHighlightsCarousel from "@/components/home/HomeHighlightsCarousel";
 
-// Desativando o cache temporariamente
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 export default async function Home() {
   let categorias: any[] = [];

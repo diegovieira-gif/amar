@@ -5,7 +5,8 @@ import { directus } from "@/lib/directus";
 import { readItems } from "@directus/sdk";
 import ServiceListClient from "./ServiceListClient";
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 type PageProps = {
   params: Promise<{ categoria: string }>;
