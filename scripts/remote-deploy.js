@@ -63,7 +63,7 @@ async function runDeploy() {
 
   try {
     logInfo(`Iniciando conexão com ${SSH_USER}@${SSH_HOST}...`);
-    
+
     await ssh.connect({
       host: SSH_HOST,
       username: SSH_USER,
@@ -78,16 +78,16 @@ async function runDeploy() {
 
     // Executa os comandos em cadeia no diretório remoto
     const commands = [
-      'git pull origin main',
+      'git pull origin master',
       'chmod +x deploy.sh',
       './deploy.sh'
     ];
 
     for (const cmd of commands) {
       logInfo(`Executando: ${cmd}`);
-      
+
       const result = await ssh.execCommand(cmd, { cwd: REMOTE_DIR });
-      
+
       logCommandOutput(result.stdout, result.stderr);
 
       if (result.code !== 0) {
@@ -99,7 +99,7 @@ async function runDeploy() {
     }
 
     logSuccess('Deploy concluído com sucesso!');
-    
+
   } catch (error) {
     logError(`Erro durante o deploy: ${error.message}`);
     process.exit(1);
