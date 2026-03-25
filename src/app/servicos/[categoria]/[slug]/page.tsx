@@ -55,11 +55,11 @@ export default async function ServiceDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const title = (service as any).nome || (service as any).title || "Serviço";
-  const desc = (service as any).descricao || (service as any).description || "";
+  const title = (service as any).titulo || (service as any).nome || (service as any).title || "Serviço";
+  const desc = (service as any).descricao_curta || (service as any).descricao || (service as any).description || "";
   const catTitle = (category as any).nome || (category as any).title || (category as any).slug;
-  const howItWorks = (service as any).como_funciona || (service as any).howItWorks || "Entre em contato para saber como funciona este serviço.";
-  const contact = (service as any).contato || (service as any).contact || "Clique em continuar para prosseguir ou contatar nossa central.";
+  const howItWorks = (service as any).documentos_necessarios || (service as any).como_funciona || (service as any).howItWorks || "Entre em contato para saber como funciona este serviço.";
+  const contact = (service as any).endereco_mapa || (service as any).horario_atendimento || (service as any).contato || (service as any).contact || "Clique em continuar para prosseguir ou contatar nossa central.";
 
   return (
     <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>

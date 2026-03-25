@@ -16,6 +16,8 @@ type Service = {
   description?: string;
   iconKey?: string;
   modality?: string;
+  titulo?: string;
+  descricao_curta?: string;
 };
 
 type Category = {
@@ -153,8 +155,8 @@ export default function ServiceListClient({ category, services }: Props) {
     const query = searchQuery.toLowerCase();
     return services.filter(
       (s) =>
-        (s.nome || s.title || "").toLowerCase().includes(query) ||
-        (s.descricao || s.description || "").toLowerCase().includes(query)
+        (s.titulo || s.nome || s.title || "").toLowerCase().includes(query) ||
+        (s.descricao_curta || s.descricao || s.description || "").toLowerCase().includes(query)
     );
   }, [services, searchQuery]);
 
@@ -188,8 +190,8 @@ export default function ServiceListClient({ category, services }: Props) {
               <div className="flex flex-col gap-3">
                 {group.services.map((service) => {
                   const slug = service.slug || service.id;
-                  const title = service.nome || service.title || "Sem Título";
-                  const description = service.descricao || service.description || "";
+                  const title = service.titulo || service.nome || service.title || "Sem Título";
+                  const description = service.descricao_curta || service.descricao || service.description || "";
                   const iconKey = service.icone || service.iconKey;
 
                   return (

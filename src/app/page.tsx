@@ -64,6 +64,7 @@ export default async function Home() {
             href="https://www.instagram.com/sermulheraju"
             target="_blank"
             rel="noopener noreferrer"
+            suppressHydrationWarning
             className="flex items-center gap-4 rounded-3xl p-6 transition-all hover:scale-[1.02] shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white no-underline"
           >
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md">

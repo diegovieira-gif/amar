@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": "128484f9-ea1e-4b98-a3cc-7a9c50c80966",
+      "titulo": "Curso de Empreendedorismo Feminino",
+      "slug": "curso-empreendedorismo",
+      "descricao_curta": "Capacitação para mulheres que desejam abrir o próprio negócio.",
+      "documentos_necessarios": "<p>RG e CPF.</p>",
+      "endereco_mapa": "Centro de Capacitação, Aracaju - SE",
+      "horario_atendimento": "Turmas noturnas",
+      "link_externo_acao": "https://fundat.aracaju.se.gov.br",
+      "status": "published",
+      "categoria_id": "3c95bd5e-4a8f-45d4-9f4d-d8892398f0bc"
+    }
+  ]
+}
