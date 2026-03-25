@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "AMAR",
-  description: "Experiência premium AMAR",
+  description: "Aplicativo da Mulher Aracajuana",
 };
 
 export default function RootLayout({
