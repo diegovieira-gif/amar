@@ -25,6 +25,7 @@ export default async function CategoryServicesPage({ params }: PageProps) {
 
   let category = null;
   let services: any[] = [];
+  let debugError = "";
 
   try {
     const categories = await directus.request(
@@ -36,6 +37,7 @@ export default async function CategoryServicesPage({ params }: PageProps) {
     category = categories[0] || null;
   } catch (error) {
     console.error("Error fetching category:", error);
+    debugError = String((error as any).message || error);
   }
 
   if (category) {
@@ -52,6 +54,7 @@ export default async function CategoryServicesPage({ params }: PageProps) {
       );
     } catch (error) {
       console.error("Error fetching services:", error);
+      debugError = String((error as any).message || error);
     }
   }
 
@@ -68,6 +71,13 @@ export default async function CategoryServicesPage({ params }: PageProps) {
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               Categoria não encontrada.
             </p>
+            {debugError && (
+              <div className="mt-4 text-left text-xs text-red-500 bg-red-100 p-4 rounded-lg overflow-auto">
+                <p><strong>Erro Técnico:</strong> {debugError}</p>
+                <p><strong>URL Directus:</strong> {process.env.NEXT_PUBLIC_DIRECTUS_URL || 'AUSENTE'}</p>
+                <p><strong>Token:</strong> {process.env.DIRECTUS_TOKEN ? 'PRESENTE' : 'AUSENTE'}</p>
+              </div>
+            )}
           </div>
         </main>
         <BottomNav />

@@ -25,6 +25,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
   let category = null;
   let service = null;
+  let debugError = "";
 
   try {
     const categories = await directus.request(
@@ -50,9 +51,34 @@ export default async function ServiceDetailPage({ params }: PageProps) {
     }
   } catch (error) {
     console.error("Error fetching service details:", error);
+    debugError = String((error as any).message || error);
   }
 
   if (!category || !service) {
+    if (debugError) {
+      return (
+        <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
+          <TopBar />
+          <main className="relative flex flex-1 flex-col gap-6 pb-32 pt-24 px-4">
+            <Link href={`/servicos/${categoriaSlug}`} className="inline-flex w-fit items-center gap-2 transition" style={{ color: 'var(--text-secondary)' }}>
+              <IconArrowLeft />
+              <span className="text-sm font-medium">Voltar</span>
+            </Link>
+            <div className="flex flex-col gap-4 rounded-2xl border px-5 py-8 text-center" style={{ borderColor: 'var(--border-soft)', backgroundColor: 'var(--accent-soft)' }}>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                Serviço não encontrado.
+              </p>
+              <div className="mt-4 text-left text-xs text-red-500 bg-red-100 p-4 rounded-lg overflow-auto">
+                <p><strong>Erro Técnico:</strong> {debugError}</p>
+                <p><strong>URL Directus:</strong> {process.env.NEXT_PUBLIC_DIRECTUS_URL || 'AUSENTE'}</p>
+                <p><strong>Token:</strong> {process.env.DIRECTUS_TOKEN ? 'PRESENTE' : 'AUSENTE'}</p>
+              </div>
+            </div>
+          </main>
+          <BottomNav />
+        </div>
+      );
+    }
     notFound();
   }
 
