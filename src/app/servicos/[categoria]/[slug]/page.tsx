@@ -55,11 +55,13 @@ export default async function ServiceDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const title = (service as any).titulo || (service as any).nome || (service as any).title || "Serviço";
-  const desc = (service as any).descricao_curta || (service as any).descricao || (service as any).description || "";
-  const catTitle = (category as any).nome || (category as any).title || (category as any).slug;
-  const howItWorks = (service as any).documentos_necessarios || (service as any).como_funciona || (service as any).howItWorks || "Entre em contato para saber como funciona este serviço.";
-  const contact = (service as any).endereco_mapa || (service as any).horario_atendimento || (service as any).contato || (service as any).contact || "Clique em continuar para prosseguir ou contatar nossa central.";
+  const title = (service as any).titulo || (service as any).nome || "Serviço";
+  const desc = (service as any).descricao_curta || (service as any).descricao || "";
+  const catTitle = (category as any).nome || (category as any).slug;
+  const documentos = (service as any).documentos_necessarios || "Nenhum documento específico informado.";
+  const horario = (service as any).horario_atendimento || "Horário não informado.";
+  const endereco = (service as any).endereco_mapa || "Endereço não informado.";
+  const linkAcao = (service as any).link_externo_acao || null;
 
   return (
     <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
@@ -103,33 +105,58 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
         <div className="flex flex-col gap-4 rounded-3xl px-6 py-6 shadow-[0_18px_60px_rgba(0,0,0,0.28)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
           <h2 className="text-lg font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
-            Como funciona
+            Documentos Necessários
           </h2>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
-            {howItWorks}
+            {documentos}
           </p>
         </div>
 
         <div className="flex flex-col gap-4 rounded-3xl px-6 py-6 shadow-[0_18px_60px_rgba(0,0,0,0.28)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
           <h2 className="text-lg font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
-            Próximos passos
+            Horário de Atendimento
           </h2>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
-            {contact}
+            {horario}
           </p>
         </div>
 
-        <button
-          type="button"
-          className="w-full rounded-full px-6 py-4 text-base font-semibold shadow-lg transition hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          style={{ 
-            backgroundColor: 'var(--button-primary-bg)', 
-            color: 'var(--button-primary-text)',
-            outlineColor: 'var(--button-primary-bg)'
-          }}
-        >
-          Continuar
-        </button>
+        <div className="flex flex-col gap-4 rounded-3xl px-6 py-6 shadow-[0_18px_60px_rgba(0,0,0,0.28)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
+            Endereço
+          </h2>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
+            {endereco}
+          </p>
+        </div>
+
+        {linkAcao ? (
+          <a
+            href={linkAcao}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-full rounded-full px-6 py-4 text-base font-semibold shadow-lg transition hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            style={{ 
+              backgroundColor: 'var(--button-primary-bg)', 
+              color: 'var(--button-primary-text)',
+              outlineColor: 'var(--button-primary-bg)'
+            }}
+          >
+            Acessar Serviço
+          </a>
+        ) : (
+          <button
+            type="button"
+            className="w-full rounded-full px-6 py-4 text-base font-semibold shadow-lg transition hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            style={{ 
+              backgroundColor: 'var(--button-primary-bg)', 
+              color: 'var(--button-primary-text)',
+              outlineColor: 'var(--button-primary-bg)'
+            }}
+          >
+            Continuar
+          </button>
+        )}
       </main>
       <BottomNav />
     </div>
