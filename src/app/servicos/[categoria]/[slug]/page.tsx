@@ -1,7 +1,5 @@
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
-import { directus } from "@/lib/directus";
-import { readItems } from "@directus/sdk";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
@@ -28,26 +26,22 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   let debugError = "";
 
   try {
-    const categories = await directus.request(
-      readItems("amar_categorias", {
-        filter: { slug: { _eq: categoriaSlug } },
-        limit: 1,
-      })
-    );
-    category = categories[0] || null;
+    const catUrl = `${process.env.NEXT_PUBLIC_DIRECTUS_URL}/items/amar_categorias?filter[slug][_eq]=${categoriaSlug}&limit=1`;
+    const catRes = await fetch(catUrl, {
+      headers: { Authorization: `Bearer ${process.env.DIRECTUS_TOKEN}` },
+    });
+    if (!catRes.ok) throw new Error(`Category fetch failed: ${catRes.statusText}`);
+    const catData = await catRes.json();
+    category = catData.data?.[0] || null;
 
     if (category) {
-      const services = await directus.request(
-        readItems("amar_servicos", {
-          filter: {
-            slug: { _eq: serviceSlug },
-            status: { _eq: "published" },
-          },
-          fields: ["*"],
-          limit: 1,
-        })
-      );
-      service = services[0] || null;
+      const srvUrl = `${process.env.NEXT_PUBLIC_DIRECTUS_URL}/items/amar_servicos?filter[slug][_eq]=${serviceSlug}&filter[status][_eq]=published&fields=*&limit=1`;
+      const srvRes = await fetch(srvUrl, {
+        headers: { Authorization: `Bearer ${process.env.DIRECTUS_TOKEN}` },
+      });
+      if (!srvRes.ok) throw new Error(`Service fetch failed: ${srvRes.statusText}`);
+      const srvData = await srvRes.json();
+      service = srvData.data?.[0] || null;
     }
   } catch (error) {
     console.error("Error fetching service details:", error);

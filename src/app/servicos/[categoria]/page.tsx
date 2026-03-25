@@ -1,8 +1,6 @@
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import Link from "next/link";
-import { directus } from "@/lib/directus";
-import { readItems } from "@directus/sdk";
 import ServiceListClient from "./ServiceListClient";
 
 export const dynamic = 'force-dynamic';
@@ -28,13 +26,13 @@ export default async function CategoryServicesPage({ params }: PageProps) {
   let debugError = "";
 
   try {
-    const categories = await directus.request(
-      readItems("amar_categorias", {
-        filter: { slug: { _eq: categoriaSlug } },
-        limit: 1,
-      })
-    );
-    category = categories[0] || null;
+    const catUrl = `${process.env.NEXT_PUBLIC_DIRECTUS_URL}/items/amar_categorias?filter[slug][_eq]=${categoriaSlug}&limit=1`;
+    const catRes = await fetch(catUrl, {
+      headers: { Authorization: `Bearer ${process.env.DIRECTUS_TOKEN}` },
+    });
+    if (!catRes.ok) throw new Error(`Category fetch failed: ${catRes.statusText}`);
+    const catData = await catRes.json();
+    category = catData.data?.[0] || null;
   } catch (error) {
     console.error("Error fetching category:", error);
     debugError = String((error as any).message || error);
@@ -42,16 +40,13 @@ export default async function CategoryServicesPage({ params }: PageProps) {
 
   if (category) {
     try {
-      services = await directus.request(
-        readItems("amar_servicos", {
-          filter: {
-            categoria_id: { slug: { _eq: categoriaSlug } },
-            status: { _eq: "published" },
-          },
-          fields: ["*"],
-          limit: -1,
-        })
-      );
+      const srvUrl = `${process.env.NEXT_PUBLIC_DIRECTUS_URL}/items/amar_servicos?filter[categoria_id][slug][_eq]=${categoriaSlug}&filter[status][_eq]=published&fields=*`;
+      const srvRes = await fetch(srvUrl, {
+        headers: { Authorization: `Bearer ${process.env.DIRECTUS_TOKEN}` },
+      });
+      if (!srvRes.ok) throw new Error(`Services fetch failed: ${srvRes.statusText}`);
+      const srvData = await srvRes.json();
+      services = srvData.data || [];
     } catch (error) {
       console.error("Error fetching services:", error);
       debugError = String((error as any).message || error);
