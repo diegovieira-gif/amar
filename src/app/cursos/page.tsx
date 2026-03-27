@@ -1,7 +1,8 @@
-"use client";
-
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
+
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 function IconCalendar() {
   return (
@@ -38,79 +39,109 @@ function IconUsers() {
   );
 }
 
-export default function CursosPage() {
-  const events = [
-    {
-      id: "e1",
-      title: "Oficina de Formação",
-      description: "Capacitação sobre liderança comunitária.",
-      date: "20/05/2026",
-      time: "10:00",
-      location: "Auditório Central",
-      capacity: 50
+export default async function CursosPage() {
+  let cursos = [];
+  
+  try {
+    const url = `${process.env.NEXT_PUBLIC_DIRECTUS_URL}/items/amar_cursos?filter[status][_eq]=published&sort=-date_updated`;
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${process.env.DIRECTUS_TOKEN}` },
+    });
+    
+    if (res.ok) {
+      const data = await res.json();
+      cursos = data.data || [];
     }
-  ];
+  } catch (error) {
+    console.error("Erro ao carregar cursos:", error);
+  }
+
+  // Função para formatar data (se vier do formato ISO do banco)
+  const formatarData = (dataStr: string) => {
+    if (!dataStr) return "Data a definir";
+    try {
+      // ajusta para UTC localmente ou corta a hora
+      const arr = dataStr.split('-');
+      if (arr.length === 3) {
+        return `${arr[2]}/${arr[1]}/${arr[0]}`;
+      }
+      return dataStr;
+    } catch {
+      return dataStr;
+    }
+  };
 
   return (
     <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
       <TopBar />
-      <main className="relative flex flex-1 flex-col gap-6 pb-32 pt-24">
+      <main className="relative flex flex-1 flex-col gap-6 pb-32 pt-24 px-4 overflow-y-auto w-full max-w-lg mx-auto">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-semibold" style={{ color: 'var(--text-primary)' }}>
             Cursos e Eventos
           </h1>
           <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            Participe de oficinas, palestras e cursos de capacitação
+            Acompanhe as oficinas, palestras e cursos de capacitação disponíveis.
           </p>
         </div>
 
         <div className="flex flex-col gap-4">
-          {events.map((event) => (
-            <div
-              key={event.id}
-              className="flex flex-col gap-4 rounded-2xl px-5 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
-              style={{ backgroundColor: 'var(--bg-surface)' }}
-            >
-              <div className="flex flex-col gap-2">
-                <h3 className="text-lg font-semibold leading-snug" style={{ color: 'var(--surface-text-primary)' }}>
-                  {event.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
-                  {event.description}
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-2 text-sm">
-                <div className="flex items-center gap-2" style={{ color: 'var(--surface-text-secondary)' }}>
-                  <IconCalendar />
-                  <span>{event.date}</span>
-                </div>
-                <div className="flex items-center gap-2" style={{ color: 'var(--surface-text-secondary)' }}>
-                  <IconClock />
-                  <span>{event.time}</span>
-                </div>
-                <div className="flex items-center gap-2" style={{ color: 'var(--surface-text-secondary)' }}>
-                  <IconMapPin />
-                  <span>{event.location}</span>
-                </div>
-                <div className="flex items-center gap-2" style={{ color: 'var(--surface-text-secondary)' }}>
-                  <IconUsers />
-                  <span>{event.capacity} vagas</span>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                className="w-full rounded-full px-5 py-3 text-sm font-semibold shadow-sm transition hover:opacity-95"
-                style={{ 
-                  backgroundColor: 'var(--button-primary-bg)', 
-                  color: 'var(--button-primary-text)'
-                }}
-              >
-                Participar
-              </button>
+          {cursos.length === 0 ? (
+            <div className="flex flex-col items-center justify-center p-8 text-center rounded-2xl border border-dashed border-gray-300 mt-8">
+              <span className="text-gray-400 mb-2">
+                <IconCalendar />
+              </span>
+              <p className="text-gray-500 text-sm">Nenhum curso disponível no momento.</p>
             </div>
-          ))}
+          ) : (
+            cursos.map((curso: any) => (
+              <div
+                key={curso.id}
+                className={`flex flex-col gap-4 rounded-2xl px-5 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] relative overflow-hidden transition-all ${
+                  curso.status_curso === 'concluido' ? 'opacity-70 grayscale-[0.5]' : ''
+                }`}
+                style={{ backgroundColor: 'var(--bg-surface)' }}
+              >
+                {/* Badge de Status */}
+                {curso.status_curso === 'concluido' ? (
+                  <div className="absolute top-4 right-4 bg-gray-200 text-gray-700 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full">
+                    Concluído
+                  </div>
+                ) : (
+                  <div className="absolute top-4 right-4 bg-green-100 text-green-700 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full">
+                    Disponível
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-2 pr-20">
+                  <h3 className="text-lg font-semibold leading-snug" style={{ color: 'var(--surface-text-primary)' }}>
+                    {curso.titulo || "Curso sem Título"}
+                  </h3>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
+                    {curso.descricao || ""}
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-2 text-sm mt-2">
+                  <div className="flex items-center gap-3" style={{ color: 'var(--surface-text-secondary)' }}>
+                    <div className="opacity-70"><IconCalendar /></div>
+                    <span>{formatarData(curso.data) || "A definir"}</span>
+                  </div>
+                  <div className="flex items-center gap-3" style={{ color: 'var(--surface-text-secondary)' }}>
+                    <div className="opacity-70"><IconClock /></div>
+                    <span>{curso.horario || "A definir"}</span>
+                  </div>
+                  <div className="flex items-center gap-3" style={{ color: 'var(--surface-text-secondary)' }}>
+                    <div className="opacity-70"><IconMapPin /></div>
+                    <span>{curso.local || "A definir"}</span>
+                  </div>
+                  <div className="flex items-center gap-3" style={{ color: 'var(--surface-text-secondary)' }}>
+                    <div className="opacity-70"><IconUsers /></div>
+                    <span>{curso.vagas ? `${curso.vagas} vagas` : "Vagas ilimitadas"}</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </main>
       <BottomNav />
