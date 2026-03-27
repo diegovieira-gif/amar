@@ -13,6 +13,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+interface DirectusFile {
+  id: string;
+  type: string;
+}
+
 function SlideCard({
   badge,
   title,
@@ -25,14 +30,17 @@ function SlideCard({
   badge: string;
   title: string;
   description: string;
-  imagemCapa?: string | null;
+  imagemCapa?: string | DirectusFile | null;
   ctaHref: string;
   ctaLabel: string;
   onCardClick: () => void;
 }) {
-  // Construção do endereço da imagem usando a API de assets do Directus
   const directusUrl = process.env.NEXT_PUBLIC_DIRECTUS_URL || 'http://localhost:8055';
-  const imageUrl = imagemCapa ? `${directusUrl}/assets/${imagemCapa}` : null;
+  
+  // Extrair ID e se é vídeo ou não
+  const fileId = typeof imagemCapa === 'object' ? imagemCapa?.id : imagemCapa;
+  const isVideo = typeof imagemCapa === 'object' && imagemCapa?.type?.startsWith('video/');
+  const imageUrl = fileId ? `${directusUrl}/assets/${fileId}` : null;
 
   return (
     <div
@@ -40,15 +48,25 @@ function SlideCard({
       className="group cursor-pointer rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 dark:ring-white/10 flex flex-col"
       style={{ color: "var(--text-primary)" }}
     >
-      {/* Imagem de Capa ou Fallback Visual (Gradiente) */}
-      <div className="relative h-48 w-full">
+      <div className="relative h-48 w-full overflow-hidden">
         {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+          isVideo ? (
+            <video
+              src={imageUrl}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          ) : (
+            <Image
+              src={imageUrl}
+              alt={title}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          )
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-pink-400 to-violet-500 flex items-center justify-center p-6 text-center">
             <h3 className="text-white text-2xl font-bold shadow-sm">{title}</h3>
@@ -63,7 +81,6 @@ function SlideCard({
           </span>
         </div>
         
-        {/* Mostra um título menor em baixo apenas se a imagem_capa existir, pois o fallback já mostra o título grande. */}
         {imageUrl && <h3 className="text-xl font-semibold tracking-tight">{title}</h3>}
         
         {description && <p className="text-sm opacity-80">{description}</p>}
@@ -92,7 +109,7 @@ function SlideCard({
 interface Campanha {
   id: string;
   titulo?: string;
-  imagem_capa?: string | null;
+  imagem_capa?: string | DirectusFile | null;
   link_destino?: string | null;
 }
 

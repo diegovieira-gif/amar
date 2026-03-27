@@ -21,8 +21,9 @@ export interface AmarServico {
 export interface AmarCampanha {
   id: string;
   titulo: string;
-  imagem_capa: string | null;
+  imagem_capa: string | { id: string; type: string } | null;
   link_destino: string | null;
+  url_instagram?: string | null;
   data_inicio: string | null;
   data_fim: string | null;
   status: string;

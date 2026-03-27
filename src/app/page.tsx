@@ -33,6 +33,7 @@ export default async function Home() {
     campanhas = await directus.request(
       readItems("amar_campanhas", {
         filter: { status: { _eq: "published" } },
+        fields: ["*", "imagem_capa.*"] as any,
       })
     );
   } catch (error) {
