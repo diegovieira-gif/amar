@@ -33,7 +33,7 @@ export default async function Home() {
     campanhas = await directus.request(
       readItems("amar_campanhas", {
         filter: { status: { _eq: "published" } },
-        fields: ["*", "imagem_capa.*"] as any,
+        fields: ["*", "imagem_capa.*", "url_instagram"] as any,
       })
     );
   } catch (error) {
@@ -46,6 +46,7 @@ export default async function Home() {
       readItems("amar_projetos", {
         filter: { status: { _eq: "published" } },
         sort: ["ordem"] as any,
+        fields: ["*", "imagem_capa.*", "link_imagem"] as any,
       })
     );
   } catch (error) {

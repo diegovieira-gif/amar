@@ -31,13 +31,14 @@ export interface AmarCampanha {
 
 export interface AmarProjeto {
   id: string;
+  status: string;
+  ordem: number | null;
   titulo: string;
   descricao: string | null;
-  imagem_capa: string | null;
+  imagem_capa: string | { id: string; type: string } | null;
+  link_imagem?: string | null;
   tipo_link: string;
   link_destino: string | null;
-  ordem: number | null;
-  status: string;
 }
 
 export interface Schema {

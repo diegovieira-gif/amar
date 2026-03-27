@@ -23,6 +23,7 @@ function SlideCard({
   title,
   description,
   imagemCapa,
+  urlInstagram,
   ctaHref,
   ctaLabel,
   onCardClick,
@@ -31,6 +32,7 @@ function SlideCard({
   title: string;
   description: string;
   imagemCapa?: string | DirectusFile | null;
+  urlInstagram?: string | null;
   ctaHref: string;
   ctaLabel: string;
   onCardClick: () => void;
@@ -42,65 +44,77 @@ function SlideCard({
   const isVideo = typeof imagemCapa === 'object' && imagemCapa?.type?.startsWith('video/');
   const imageUrl = fileId ? `${directusUrl}/assets/${fileId}` : null;
 
+  // Renderizar Iframe se não houver imagemCapa mas houver Instagram
+  const renderMedia = () => {
+    if (imageUrl) {
+      if (isVideo) {
+        return (
+          <video
+            src={imageUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        );
+      }
+      return (
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      );
+    }
+
+    if (urlInstagram) {
+      const embedUrl = urlInstagram.endsWith('/') ? `${urlInstagram}embed/` : `${urlInstagram}/embed/`;
+      return (
+        <iframe
+          src={embedUrl}
+          className="absolute inset-0 w-full h-full border-none pointer-events-none"
+          {...({ allowtransparency: "true" } as any)}
+          allow="encrypted-media"
+          loading="lazy"
+          title="Instagram Preview"
+        ></iframe>
+      );
+    }
+
+    return (
+      <div className="absolute inset-0 bg-gradient-to-br from-pink-400 to-violet-500 flex items-center justify-center p-6 text-center">
+        <h3 className="text-white text-2xl font-bold shadow-sm">{title}</h3>
+      </div>
+    );
+  };
+
   return (
     <div
       onClick={onCardClick}
-      className="group cursor-pointer rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 dark:ring-white/10 flex flex-col"
-      style={{ color: "var(--text-primary)" }}
+      className="group cursor-pointer rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5 dark:ring-white/10 flex flex-col h-full bg-[#0a0f1d]"
     >
-      <div className="relative h-48 w-full overflow-hidden">
-        {imageUrl ? (
-          isVideo ? (
-            <video
-              src={imageUrl}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          ) : (
-            <Image
-              src={imageUrl}
-              alt={title}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          )
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-pink-400 to-violet-500 flex items-center justify-center p-6 text-center">
-            <h3 className="text-white text-2xl font-bold shadow-sm">{title}</h3>
-          </div>
-        )}
+      <div className="relative h-72 w-full overflow-hidden">
+        {renderMedia()}
       </div>
 
-      <div className="flex flex-col gap-4 p-6 bg-white dark:bg-gray-900 flex-1">
-        <div className="flex items-center">
-          <span className="inline-flex items-center rounded-full bg-pink-100 px-3 py-1 text-xs font-semibold text-pink-700 ring-1 ring-pink-200 dark:bg-pink-900/40 dark:text-pink-200 dark:ring-pink-800">
-            {badge}
-          </span>
-        </div>
+      <div className="flex items-center justify-between p-5 bg-[#0a0f1d]">
+        {title && (
+          <h3 className="text-lg font-bold text-white tracking-tight line-clamp-1 flex-1 mr-4">
+            {title}
+          </h3>
+        )}
         
-        {imageUrl && <h3 className="text-xl font-semibold tracking-tight">{title}</h3>}
-        
-        {description && <p className="text-sm opacity-80">{description}</p>}
-        
-        <div className="mt-auto pt-2 flex flex-wrap gap-3">
-          <Link
-            href={ctaHref || "#"}
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center justify-center rounded-xl bg-pink-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-pink-500 dark:hover:bg-pink-600"
-          >
-            {ctaLabel}
-          </Link>
-          <Link
-            href={ctaHref || "#"}
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center justify-center rounded-xl border border-pink-300 px-4 py-2 text-sm font-semibold text-pink-700 transition-colors hover:bg-pink-50 focus:outline-none focus:ring-2 focus:ring-pink-200 dark:border-pink-700 dark:text-pink-200 dark:hover:bg-pink-900/20"
-          >
-            Saiba mais
-          </Link>
-        </div>
+        <Link
+          href={ctaHref || "#"}
+          target={ctaHref.startsWith('http') ? "_blank" : undefined}
+          onClick={(e) => e.stopPropagation()}
+          suppressHydrationWarning
+          className="inline-flex items-center justify-center rounded-xl border border-white/30 px-5 py-2 text-xs font-bold text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20 whitespace-nowrap"
+        >
+          Saiba mais
+        </Link>
       </div>
     </div>
   );
@@ -111,6 +125,7 @@ interface Campanha {
   titulo?: string;
   imagem_capa?: string | DirectusFile | null;
   link_destino?: string | null;
+  url_instagram?: string | null;
 }
 
 export default function HomeHighlightsCarousel({ campanhas = [] }: { campanhas?: Campanha[] }) {
@@ -174,19 +189,30 @@ export default function HomeHighlightsCarousel({ campanhas = [] }: { campanhas?:
           className="!px-1 !pb-10" // added padding bottom for pagination bullets
         >
           {campanhas?.length > 0 ? (
-            campanhas.map((campanha) => (
+            campanhas.map((campanha) => {
+              const finalLink = campanha.url_instagram || campanha.link_destino || "#";
+              const isExternal = finalLink.startsWith('http');
+
+              return (
               <SwiperSlide key={campanha.id}>
                 <SlideCard
                   badge="Destaque"
                   title={campanha.titulo || "Campanha"}
                   description=""
                   imagemCapa={campanha.imagem_capa}
-                  ctaHref={campanha.link_destino || "#"}
+                  urlInstagram={campanha.url_instagram}
+                  ctaHref={finalLink}
                   ctaLabel="Explorar"
-                  onCardClick={() => router.push(campanha.link_destino || "#")}
+                  onCardClick={() => {
+                    if (isExternal) {
+                      window.open(finalLink, '_blank');
+                    } else {
+                      router.push(finalLink);
+                    }
+                  }}
                 />
               </SwiperSlide>
-            ))
+            )})
           ) : (
             <SwiperSlide>
               <SlideCard

@@ -8,74 +8,74 @@ import { Pagination, A11y, Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
 
+// Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-function ProjetoCard({
+function SlideCard({
   title,
   description,
   imagemCapa,
-  tipoLink,
-  linkDestino,
-  onClick,
+  linkImagem,
+  ctaHref,
+  ctaLabel,
+  onCardClick,
 }: {
   title: string;
-  description?: string;
-  imagemCapa?: string | null;
-  tipoLink?: string;
-  linkDestino?: string | null;
-  onClick: () => void;
+  description: string;
+  imagemCapa?: string | { id: string; type: string } | null;
+  linkImagem?: string | null;
+  ctaHref: string;
+  ctaLabel: string;
+  onCardClick: () => void;
 }) {
   const directusUrl = process.env.NEXT_PUBLIC_DIRECTUS_URL || 'http://localhost:8055';
-  const imageUrl = imagemCapa ? `${directusUrl}/assets/${imagemCapa}` : null;
   
-  const isExternal = tipoLink === 'externo' || (linkDestino && linkDestino.startsWith('http'));
+  // Prioritize linkImagem (external/legacy string) over image_capa (Directus asset)
+  let imageUrl = linkImagem || null;
+  if (!imageUrl) {
+    const imageId = typeof imagemCapa === 'object' && imagemCapa !== null ? imagemCapa.id : imagemCapa;
+    imageUrl = imageId ? `${directusUrl}/assets/${imageId}` : null;
+  }
 
   return (
     <div
-      onClick={onClick}
-      className="group cursor-pointer rounded-3xl overflow-hidden shadow-lg border border-black/5 dark:border-white/10 flex flex-col h-full bg-white dark:bg-gray-900"
+      onClick={onCardClick}
+      className="group cursor-pointer rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 dark:ring-white/10 flex flex-col h-full"
+      style={{ color: "var(--text-primary)" }}
     >
-      <div className="relative h-40 w-full overflow-hidden">
+      <div className="relative h-48 w-full">
         {imageUrl ? (
           <Image
             src={imageUrl}
             alt={title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            unoptimized={!!linkImagem} // Helpful if linkImagem points to external domains not in next.config
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-blue-500 flex items-center justify-center p-6 text-center">
-            <h3 className="text-white text-xl font-bold shadow-sm">{title}</h3>
+          <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-blue-500 flex items-center justify-center p-6 text-center">
+            <h3 className="text-white text-2xl font-bold shadow-sm">{title}</h3>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        <div className="absolute bottom-4 left-4 right-4 text-white">
-          <h3 className="text-xl font-bold tracking-tight line-clamp-1">{title}</h3>
-        </div>
       </div>
 
-      <div className="flex flex-col p-5 flex-1 justify-between gap-4">
-        {description ? (
-          <p className="text-sm opacity-80 text-[var(--text-secondary)] line-clamp-2">{description}</p>
-        ) : (
-          <div className="flex-1" />
-        )}
+      <div className="flex flex-col gap-4 p-6 bg-white dark:bg-gray-900 flex-1">
+        {/* Mostramos o título sempre para facilitar a leitura se a imagem não carregar ou for muito escura */}
+        <h3 className="text-xl font-semibold tracking-tight">{title}</h3>
         
-        <div className="flex items-center gap-2">
+        {description && <p className="text-sm opacity-80 line-clamp-2">{description}</p>}
+        
+        <div className="mt-auto pt-2 flex flex-wrap gap-3">
           <Link
-            href={linkDestino || "#"}
-            target={isExternal ? "_blank" : undefined}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--accent-soft)] text-[var(--text-primary)] px-4 py-3 text-sm font-semibold transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+            href={ctaHref || "#"}
+            onClick={(e) => e.stopPropagation()}
+            suppressHydrationWarning
+            className="inline-flex w-full items-center justify-center rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-400 dark:bg-teal-500 dark:hover:bg-teal-600"
           >
-            {isExternal ? "Acessar" : "Explorar"}
-            <span className="material-symbols-outlined text-[18px]">
-              {isExternal ? "open_in_new" : "arrow_forward"}
-            </span>
+            Saiba mais
+            <span className="material-symbols-outlined ml-2 text-[20px]">arrow_forward</span>
           </Link>
         </div>
       </div>
@@ -87,7 +87,8 @@ export interface Projeto {
   id: string;
   titulo?: string;
   descricao?: string;
-  imagem_capa?: string | null;
+  imagem_capa?: string | { id: string; type: string } | null;
+  link_imagem?: string | null;
   tipo_link?: string;
   link_destino?: string | null;
 }
@@ -97,9 +98,7 @@ export default function ProjetosCarousel({ projetos = [] }: { projetos?: Projeto
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const prevRef = useRef<HTMLButtonElement | null>(null);
 
-  if (!projetos || projetos.length === 0) {
-    return null;
-  }
+  if (!projetos || projetos.length === 0) return null;
 
   return (
     <div className="w-full">
@@ -127,9 +126,10 @@ export default function ProjetosCarousel({ projetos = [] }: { projetos?: Projeto
 
         <Swiper
           modules={[Pagination, A11y, Navigation]}
-          slidesPerView={1.1}
-          spaceBetween={16}
-          pagination={{ clickable: true, dynamicBullets: true }}
+          slidesPerView={1}
+          spaceBetween={24}
+          loop={false}
+          pagination={{ clickable: true }}
           navigation={{
             enabled: true,
             prevEl: prevRef.current,
@@ -145,25 +145,22 @@ export default function ProjetosCarousel({ projetos = [] }: { projetos?: Projeto
             s.navigation.init();
             s.navigation.update();
           }}
-          breakpoints={{
-            640: { slidesPerView: 2.2, spaceBetween: 20 },
-            1024: { slidesPerView: 3, spaceBetween: 24 },
-          }}
-          className="!px-1 !pb-12"
+          className="!px-1 !pb-10"
         >
           {projetos.map((projeto) => {
-             const isExternal = projeto.tipo_link === 'externo' || (projeto.link_destino && projeto.link_destino.startsWith('http'));
-             
-             return (
+            const isExternal = projeto.tipo_link === 'externo' || (projeto.link_destino && projeto.link_destino.startsWith('http'));
+            const link = projeto.link_destino || "#";
+
+            return (
               <SwiperSlide key={projeto.id} className="h-auto">
-                <ProjetoCard
+                <SlideCard
                   title={projeto.titulo || "Projeto"}
-                  description={projeto.descricao}
+                  description={projeto.descricao || ""}
                   imagemCapa={projeto.imagem_capa}
-                  tipoLink={projeto.tipo_link}
-                  linkDestino={projeto.link_destino}
-                  onClick={() => {
-                    const link = projeto.link_destino || "#";
+                  linkImagem={projeto.link_imagem}
+                  ctaHref={link}
+                  ctaLabel="Saiba mais"
+                  onCardClick={() => {
                     if (isExternal) {
                       window.open(link, '_blank');
                     } else {

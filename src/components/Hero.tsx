@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function Hero() {
   return (
     <section
@@ -23,6 +25,14 @@ export default function Hero() {
         />
       </div>
       <div className="relative flex flex-col gap-4">
+        <Image 
+          src="/icon-512x512.png" 
+          alt="AMAR Logo" 
+          width={160} 
+          height={160} 
+          priority
+          className="mx-auto mb-2 object-contain"
+        />
         <span
           className="text-xs font-medium uppercase tracking-[0.3em]"
           style={{ color: 'var(--text-secondary)' }}
