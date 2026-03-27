@@ -43,7 +43,9 @@ export default async function CursosPage() {
   let cursos = [];
   
   try {
-    const url = `${process.env.NEXT_PUBLIC_DIRECTUS_URL}/items/amar_cursos?filter[status][_eq]=published&sort=-date_updated`;
+    // Como a coleção foi criada pela IA, ela não tem os campos padrões de sistema 'status' ou 'date_updated'. 
+    // Vamos buscar todos os cursos diretamente e ordenar pelo ID decrescente (mais recentes primeiro)
+    const url = `${process.env.NEXT_PUBLIC_DIRECTUS_URL}/items/amar_cursos?sort=-id`;
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${process.env.DIRECTUS_TOKEN}` },
     });
