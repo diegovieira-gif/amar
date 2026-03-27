@@ -6,6 +6,7 @@ import { readItems } from "@directus/sdk";
 import Link from "next/link";
 import CategoryChip from "@/components/CategoryChip";
 import HomeHighlightsCarousel from "@/components/home/HomeHighlightsCarousel";
+import ProjetosCarousel from "@/components/home/ProjetosCarousel";
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -13,6 +14,7 @@ export const fetchCache = 'force-no-store';
 export default async function Home() {
   let categorias: any[] = [];
   let campanhas: any[] = [];
+  let projetos: any[] = [];
 
   try {
     // Fetch das categorias (amar_categorias) ordenando pelo campo ordem e filtrando por status: 'published'
@@ -37,6 +39,18 @@ export default async function Home() {
     console.error('Erro ao buscar campanhas:', error);
   }
 
+  try {
+    // Fetch dos projetos (amar_projetos) filtrando por status: 'published'
+    projetos = await directus.request(
+      readItems("amar_projetos", {
+        filter: { status: { _eq: "published" } },
+        sort: ["ordem"] as any,
+      })
+    );
+  } catch (error) {
+    console.error('Erro ao buscar projetos:', error);
+  }
+
   const isErrorOrEmpty = categorias.length === 0;
 
   return (
@@ -57,6 +71,16 @@ export default async function Home() {
           </h2>
           <HomeHighlightsCarousel campanhas={campanhas} />
         </section>
+
+        {/* Projetos */}
+        {projetos.length > 0 && (
+          <section className="mt-2">
+            <h2 className="text-xl font-bold mb-4 text-[var(--text-primary)]">
+              Projetos
+            </h2>
+            <ProjetosCarousel projetos={projetos} />
+          </section>
+        )}
 
         {/* Banner Instagram */}
         <section className="mt-2">

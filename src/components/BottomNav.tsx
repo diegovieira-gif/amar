@@ -58,13 +58,13 @@ export default function BottomNav() {
     if (path.startsWith("/cursos")) return "Cursos";
     if (path.startsWith("/contatos")) return "Contatos";
     if (path.startsWith("/menu")) return "Menu";
-    return "Home";
+    return "Amar";
   };
 
   const activeLabel = getActiveLabel(pathname);
 
   const items = [
-    { label: "Home", icon: <IconHome />, href: "/" },
+    { label: "Amar", icon: <IconHome />, href: "/" },
     { label: "Serviços", icon: <IconServices />, href: "/servicos" },
     { label: "Sonho", icon: <span className="material-symbols-outlined">stars</span>, href: "/sonho" },
     { label: "Cursos", icon: <IconHeart />, href: "/cursos" },

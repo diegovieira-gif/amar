@@ -1,134 +1,143 @@
-"use client";
-
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
-import Link from "next/link";
 
-function IconEdit() {
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
+function IconPhone() {
   return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z" />
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
     </svg>
   );
 }
 
-function IconBell() {
+function IconShield() {
   return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path
-        d="M6.5 10.5a5.5 5.5 0 0 1 11 0v2.25c0 .86.32 1.69.9 2.33l.35.38c.38.42.1 1.09-.47 1.09H5.72c-.57 0-.85-.67-.47-1.09l.35-.38c.58-.64.9-1.47.9-2.33Z"
-        strokeLinecap="round"
-      />
-      <path d="M10 18.5a2 2 0 0 0 4 0" strokeLinecap="round" />
+    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>
   );
 }
 
-function IconStar() {
+function IconMapPin() {
   return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <polygon points="12 2 15.09 10.26 23.77 10.36 17.13 16.01 19.09 24.29 12 18.54 4.91 24.29 6.87 16.01 0.23 10.36 8.91 10.26 12 2" />
+    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+      <circle cx="12" cy="10" r="3" />
     </svg>
   );
 }
 
-function IconBook() {
-  return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" />
-    </svg>
-  );
-}
+export default async function ContatosPage() {
+  let contatosDeRede = [];
+  
+  try {
+    const url = `${process.env.NEXT_PUBLIC_DIRECTUS_URL}/items/amar_contatos?sort=-id`;
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${process.env.DIRECTUS_TOKEN}` },
+    });
+    
+    if (res.ok) {
+      const data = await res.json();
+      contatosDeRede = data.data || [];
+    }
+  } catch (error) {
+    console.error("Erro ao carregar contatos extras:", error);
+  }
 
-function IconTrendingUp() {
-  return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-      <polyline points="17 6 23 6 23 12" />
-    </svg>
-  );
-}
-
-export default function ContatosPage() {
-  const userProfileMock = {
-    name: "Cidadão Exemplo",
-    neighborhood: "Centro",
-    status: "Ativo",
-    coursesCompleted: 2,
-    eventsAttended: 5,
-    servicesAccessed: 3
-  };
+  const emergencias = [
+    { nome: "Central de Atendimento à Mulher", numero: "180", desc: "Denúncias e orientações sobre violência contra a mulher." },
+    { nome: "Polícia Militar", numero: "190", desc: "Para situações de emergência e risco imediato." },
+    { nome: "Patrulha Maria da Penha / GMA", numero: "153", desc: "Guarda Municipal de Aracaju." },
+    { nome: "SAMU", numero: "192", desc: "Atendimento médico de urgência." },
+  ];
 
   return (
-    <div className="relative flex min-h-screen flex-col" style={{ backgroundColor: 'var(--bg-app)' }}>
+    <div className="relative flex min-h-screen flex-col overflow-x-hidden" style={{ backgroundColor: 'var(--bg-app)' }}>
       <TopBar />
-      <main className="relative flex flex-1 flex-col gap-6 pb-32 pt-24">
-        <div className="flex flex-col gap-4 rounded-3xl px-6 py-6 shadow-[0_18px_60px_rgba(0,0,0,0.28)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
-          <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full text-white font-bold text-lg" style={{ background: 'linear-gradient(to bottom right, rgb(192, 132, 252), rgb(244, 114, 182))' }}>
-              {userProfileMock.name.charAt(0)}
-            </div>
-            <div className="flex flex-col gap-1">
-              <h2 className="text-lg font-semibold" style={{ color: 'var(--surface-text-primary)' }}>{userProfileMock.name}</h2>
-              <p className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>{userProfileMock.neighborhood}</p>
-              <span className="text-xs font-medium" style={{ color: 'var(--surface-text-secondary)' }}>{userProfileMock.status}</span>
-            </div>
-          </div>
+      <main className="relative flex flex-1 flex-col gap-8 pb-32 pt-24 px-4 overflow-y-auto w-full max-w-lg mx-auto">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl font-semibold" style={{ color: 'var(--text-primary)' }}>
+            Rede de Apoio
+          </h1>
+          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            Contatos importantes e de emergência para a sua proteção e bem-estar.
+          </p>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-secondary)' }}>
-            Ações Rápidas
-          </h3>
-          <div className="grid grid-cols-3 gap-3">
-            <button className="flex flex-col items-center gap-2 rounded-2xl px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
-              <IconEdit />
-              <span className="text-xs font-medium" style={{ color: 'var(--surface-text-primary)' }}>Editar</span>
-            </button>
-            <button className="flex flex-col items-center gap-2 rounded-2xl px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
-              <IconBell />
-              <span className="text-xs font-medium" style={{ color: 'var(--surface-text-primary)' }}>Notif.</span>
-            </button>
-            <Link
-              href="/contatos/avaliacao"
-              className="flex flex-col items-center gap-2 rounded-2xl px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
-              style={{ backgroundColor: 'var(--bg-surface)' }}
-            >
-              <IconStar />
-              <span className="text-xs font-medium" style={{ color: 'var(--surface-text-primary)' }}>Avaliação</span>
-            </Link>
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center gap-2 px-1">
+            <span className="text-rose-500"><IconShield /></span>
+            <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Emergência</h2>
           </div>
-        </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {emergencias.map((em, idx) => (
+              <a 
+                key={idx}
+                href={`tel:${em.numero}`}
+                className="flex items-center justify-between gap-4 rounded-2xl px-5 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-transform active:scale-95"
+                style={{ backgroundColor: 'var(--bg-surface)' }}
+              >
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-base font-bold text-rose-600">{em.nome}</h3>
+                  <p className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>{em.desc}</p>
+                </div>
+                <div className="flex flex-col items-center justify-center flex-shrink-0 bg-rose-100 text-rose-600 rounded-full w-14 h-14 shadow-sm">
+                  <span className="font-extrabold text-sm">{em.numero}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
 
-        <div className="flex flex-col gap-4">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--text-secondary)' }}>
-            Minha Jornada
-          </h3>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="flex flex-col items-center gap-2 rounded-2xl px-4 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
-              <IconBook />
-              <span className="text-2xl font-bold" style={{ color: 'var(--surface-text-primary)' }}>
-                {userProfileMock.coursesCompleted}
-              </span>
-              <span className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>Cursos</span>
-            </div>
-            <div className="flex flex-col items-center gap-2 rounded-2xl px-4 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
-              <IconTrendingUp />
-              <span className="text-2xl font-bold" style={{ color: 'var(--surface-text-primary)' }}>
-                {userProfileMock.eventsAttended}
-              </span>
-              <span className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>Eventos</span>
-            </div>
-            <div className="flex flex-col items-center gap-2 rounded-2xl px-4 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]" style={{ backgroundColor: 'var(--bg-surface)' }}>
-              <IconStar />
-              <span className="text-2xl font-bold" style={{ color: 'var(--surface-text-primary)' }}>
-                {userProfileMock.servicesAccessed}
-              </span>
-              <span className="text-xs" style={{ color: 'var(--surface-text-secondary)' }}>Serviços</span>
-            </div>
+        <section className="flex flex-col gap-4 mt-4">
+          <div className="flex items-center gap-2 px-1">
+            <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Outros Contatos Úteis</h2>
           </div>
-        </div>
+
+          <div className="flex flex-col gap-4">
+            {contatosDeRede.length === 0 ? (
+              <p className="text-sm text-center py-6 border border-dashed rounded-2xl" style={{ borderColor: 'var(--border-soft)', color: 'var(--text-muted)' }}>
+                Nenhum contato adicional cadastrado no momento.
+              </p>
+            ) : (
+              contatosDeRede.map((contato: any) => (
+                <div 
+                  key={contato.id}
+                  className="flex flex-col gap-3 rounded-2xl px-5 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
+                  style={{ backgroundColor: 'var(--bg-surface)' }}
+                >
+                  <div className="flex flex-col gap-1">
+                    <h3 className="text-base font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
+                      {contato.nome || "Não informado"}
+                    </h3>
+                    {contato.descricao && (
+                      <p className="text-sm" style={{ color: 'var(--surface-text-secondary)' }}>{contato.descricao}</p>
+                    )}
+                  </div>
+                  
+                  <div className="flex flex-col gap-2 mt-2">
+                    {contato.telefone && (
+                      <a href={`tel:${contato.telefone}`} className="flex items-center gap-2 text-sm text-blue-500 font-medium w-fit">
+                        <IconPhone />
+                        <span>{contato.telefone}</span>
+                      </a>
+                    )}
+                    
+                    {contato.endereco && (
+                      <div className="flex items-start gap-2 mt-1 text-sm pt-2 border-t" style={{ borderColor: 'var(--border-soft)', color: 'var(--surface-text-secondary)' }}>
+                        <div className="mt-0.5"><IconMapPin /></div>
+                        <span className="leading-relaxed">{contato.endereco}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
       </main>
       <BottomNav />
     </div>

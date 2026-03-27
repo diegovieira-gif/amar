@@ -28,10 +28,22 @@ export interface AmarCampanha {
   status: string;
 }
 
+export interface AmarProjeto {
+  id: string;
+  titulo: string;
+  descricao: string | null;
+  imagem_capa: string | null;
+  tipo_link: string;
+  link_destino: string | null;
+  ordem: number | null;
+  status: string;
+}
+
 export interface Schema {
   amar_categorias: AmarCategoria[];
   amar_servicos: AmarServico[];
   amar_campanhas: AmarCampanha[];
+  amar_projetos: AmarProjeto[];
 }
 
 export const directus = createDirectus<Schema>(process.env.NEXT_PUBLIC_DIRECTUS_URL!)
