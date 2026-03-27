@@ -1,7 +1,6 @@
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -10,10 +9,7 @@ type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-export default async function CommunityTopicPage({ params }: PageProps) {
-  await params;
-  notFound();
-
+export default function CommunityTopicPage(_: PageProps) {
   return (
     <div
       className="relative flex min-h-screen flex-col"
