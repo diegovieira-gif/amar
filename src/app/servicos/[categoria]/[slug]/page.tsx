@@ -78,6 +78,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
   const title = (service as any).titulo || (service as any).nome || "Serviço";
   const desc = (service as any).descricao_curta || (service as any).descricao || "";
+  const sobre = (service as any).sobre || desc;
   const catTitle = (category as any).nome || (category as any).slug;
   const documentos = (service as any).documentos_necessarios || "Nenhum documento específico informado.";
   const horario = (service as any).horario_atendimento || "Horário não informado.";
@@ -119,8 +120,8 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           <h2 className="text-lg font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
             Sobre este serviço
           </h2>
-          <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
-            {desc}
+          <p className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--surface-text-secondary)' }}>
+            {sobre}
           </p>
         </div>
 
@@ -146,9 +147,30 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           <h2 className="text-lg font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
             Endereço
           </h2>
-          <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
-            {endereco}
-          </p>
+          {endereco.includes('<iframe') ? (
+            <div 
+              className="w-full overflow-hidden rounded-2xl [&_iframe]:w-full [&_iframe]:h-[250px] [&_iframe]:border-0"
+              dangerouslySetInnerHTML={{ __html: endereco }}
+            />
+          ) : endereco.startsWith('http') ? (
+            <a
+              href={endereco}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium transition hover:opacity-80"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              <svg aria-hidden className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Abrir no Google Maps
+            </a>
+          ) : (
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
+              {endereco}
+            </p>
+          )}
         </div>
 
         {linkAcao ? (
@@ -163,7 +185,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               outlineColor: 'var(--button-primary-bg)'
             }}
           >
-            Acessar Serviço
+            Continuar
           </a>
         ) : (
           <button

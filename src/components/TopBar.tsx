@@ -3,21 +3,6 @@
 import IconButton from "./IconButton";
 import { useTheme } from "@/context/theme-context";
 
-function IconHamburger() {
-  return (
-    <svg
-      aria-hidden
-      className="h-6 w-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-    >
-      <path d="M4 7.5h16M4 12h12M4 16.5h10" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function IconSearch() {
   return (
     <svg
@@ -112,9 +97,7 @@ export default function TopBar() {
         backdropFilter: 'blur(20px)',
       }}
     >
-      <IconButton ariaLabel="Abrir menu">
-        <IconHamburger />
-      </IconButton>
+
       <div className="flex flex-1 flex-col items-center justify-center">
         <span className="text-sm font-semibold uppercase tracking-[0.28em]" style={{ color: 'var(--text-secondary)' }}>AMAR</span>
         <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider opacity-70">Aplicativo da Mulher Aracajuana</span>
