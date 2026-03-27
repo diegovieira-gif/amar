@@ -104,10 +104,10 @@ export default function AvaliacaoPage() {
           </button>
 
           <Link
-            href="/perfil"
+            href="/contatos"
             className="text-center text-xs text-neutral-500 transition hover:text-neutral-900"
           >
-            Voltar ao perfil
+            Voltar aos contatos
           </Link>
         </div>
       </main>

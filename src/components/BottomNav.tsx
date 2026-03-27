@@ -56,7 +56,7 @@ export default function BottomNav() {
     if (path.startsWith("/servicos")) return "Serviços";
     if (path.startsWith("/sonho")) return "Sonho";
     if (path.startsWith("/cursos")) return "Cursos";
-    if (path.startsWith("/perfil")) return "Perfil";
+    if (path.startsWith("/contatos")) return "Contatos";
     if (path.startsWith("/menu")) return "Menu";
     return "Home";
   };
@@ -68,7 +68,7 @@ export default function BottomNav() {
     { label: "Serviços", icon: <IconServices />, href: "/servicos" },
     { label: "Sonho", icon: <span className="material-symbols-outlined">stars</span>, href: "/sonho" },
     { label: "Cursos", icon: <IconHeart />, href: "/cursos" },
-    { label: "Perfil", icon: <IconUser />, href: "/perfil" },
+    { label: "Contatos", icon: <IconUser />, href: "/contatos" },
   ];
 
   return (

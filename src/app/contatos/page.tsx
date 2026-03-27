@@ -50,7 +50,7 @@ function IconTrendingUp() {
   );
 }
 
-export default function PerfilPage() {
+export default function ContatosPage() {
   const userProfileMock = {
     name: "Cidadão Exemplo",
     neighborhood: "Centro",
@@ -91,7 +91,7 @@ export default function PerfilPage() {
               <span className="text-xs font-medium" style={{ color: 'var(--surface-text-primary)' }}>Notif.</span>
             </button>
             <Link
-              href="/perfil/avaliacao"
+              href="/contatos/avaliacao"
               className="flex flex-col items-center gap-2 rounded-2xl px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
               style={{ backgroundColor: 'var(--bg-surface)' }}
             >

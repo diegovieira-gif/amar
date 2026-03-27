@@ -85,39 +85,21 @@ export default function SonhoPage() {
 
     setLoading(true);
     try {
-      // 1. Upload do áudio para o Directus
-      const formDataUpload = new FormData();
-      formDataUpload.append("file", audioBlob, "sonho.webm");
-      formDataUpload.append("title", `Sonho de ${formData.nome || "Anônimo"}`);
+      // Usar a rota da API local para evitar problemas de CORS e ocultar o token
+      const apiFormData = new FormData();
+      apiFormData.append("file", audioBlob, "sonho.webm");
+      apiFormData.append("nome", formData.nome);
+      apiFormData.append("telefone", formData.telefone);
+      apiFormData.append("cpf", formData.cpf);
 
-      const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_DIRECTUS_URL}/files`, {
+      const response = await fetch("/api/sonho", {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${process.env.DIRECTUS_TOKEN || "j8EbY77uaPAhN0ZnGrDvoQI9VUGTvl_7"}`,
-        },
-        body: formDataUpload,
+        body: apiFormData,
       });
 
-      if (!uploadRes.ok) throw new Error("Falha no upload do áudio");
-      const uploadData = await uploadRes.json();
-      const fileId = uploadData.data.id;
-
-      // 2. Criar item na coleção amar_sonhos
-      const itemRes = await fetch(`${process.env.NEXT_PUBLIC_DIRECTUS_URL}/items/amar_sonhos`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.DIRECTUS_TOKEN || "j8EbY77uaPAhN0ZnGrDvoQI9VUGTvl_7"}`,
-        },
-        body: JSON.stringify({
-          nome: formData.nome,
-          telefone: formData.telefone,
-          cpf: formData.cpf,
-          audio: fileId,
-        }),
-      });
-
-      if (!itemRes.ok) throw new Error("Falha ao salvar o sonho");
+      if (!response.ok) {
+        throw new Error("Falha ao salvar o sonho no servidor interno");
+      }
 
       setStep("success");
     } catch (err) {
