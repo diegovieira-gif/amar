@@ -82,7 +82,27 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const catTitle = (category as any).nome || (category as any).slug;
   const documentos = (service as any).documentos_necessarios || "Nenhum documento específico informado.";
   const horario = (service as any).horario_atendimento || "Horário não informado.";
-  const endereco = (service as any).endereco_mapa || "Endereço não informado.";
+  const enderecoRaw = (service as any).endereco_mapa || "Endereço não informado.";
+  let enderecoProcessado = enderecoRaw;
+
+  // Se for um link curto, tentamos resolver para o endereço real para o iframe funcionar melhor
+  if (enderecoRaw.startsWith('http') && !enderecoRaw.includes('<iframe')) {
+    try {
+      const res = await fetch(enderecoRaw, { method: 'HEAD', redirect: 'follow' });
+      const finalUrl = res.url;
+      const placeMatch = finalUrl.match(/\/place\/([^\/]+)/);
+      if (placeMatch) {
+         enderecoProcessado = decodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
+      } else {
+         enderecoProcessado = finalUrl;
+      }
+    } catch (err) {
+      console.error("Erro ao resolver link do mapa:", err);
+    }
+  }
+
+  const endereco = enderecoProcessado;
+  const linkOriginal = enderecoRaw;
   const linkAcao = (service as any).link_externo_acao || null;
 
   return (
@@ -147,48 +167,61 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           <h2 className="text-lg font-semibold" style={{ color: 'var(--surface-text-primary)' }}>
             Endereço
           </h2>
-          {endereco.includes('<iframe') ? (
-            <div 
-              className="w-full overflow-hidden rounded-2xl [&_iframe]:w-full [&_iframe]:h-[250px] [&_iframe]:border-0"
-              dangerouslySetInnerHTML={{ __html: endereco }}
-            />
-          ) : endereco.startsWith('http') ? (
-            <div className="flex flex-col gap-3">
-              <div className="relative w-full overflow-hidden rounded-2xl border shadow-sm" style={{ borderColor: 'var(--border-soft)', backgroundColor: 'var(--bg-app)' }}>
-                <iframe 
-                  width="100%" 
-                  height="220" 
-                  style={{ border: 0, display: 'block' }}
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(endereco)}&output=embed`}
-                  allowFullScreen
-                  title="Mapa"
+          {(() => {
+            if (endereco.includes('<iframe')) {
+              return (
+                <div 
+                  className="w-full overflow-hidden rounded-2xl [&_iframe]:w-full [&_iframe]:h-[250px] [&_iframe]:border-0"
+                  dangerouslySetInnerHTML={{ __html: endereco }}
                 />
-              </div>
-              <a
-                href={endereco}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 rounded-2xl py-4 text-sm font-bold transition-all active:scale-[0.98] shadow-sm"
-                style={{ 
-                  backgroundColor: 'var(--accent-soft)',
-                  color: 'var(--text-primary)',
-                  border: '1px solid var(--border-soft)'
-                }}
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-rose-50 text-rose-600 shadow-sm border border-rose-100">
-                  <svg aria-hidden className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
+              );
+            }
+
+            if (linkOriginal.startsWith('http')) {
+              // Tentativa de extrair um termo de busca amigável do link para o embed
+              // O Google Maps Embed não aceita bem links curtos (maps.app.goo.gl)
+              // mas aceita termos de busca ou coordenadas.
+              return (
+                <div className="flex flex-col gap-3">
+                  <div className="relative w-full overflow-hidden rounded-2xl border shadow-sm" style={{ borderColor: 'var(--border-soft)', backgroundColor: 'var(--bg-app)' }}>
+                    <iframe 
+                      width="100%" 
+                      height="220" 
+                      style={{ border: 0, display: 'block' }}
+                      src={`https://maps.google.com/maps?q=${encodeURIComponent(endereco)}&output=embed`}
+                      allowFullScreen
+                      title="Mapa"
+                    />
+                  </div>
+                  <a
+                    href={linkOriginal}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 rounded-2xl py-4 text-sm font-bold transition-all active:scale-[0.98] shadow-sm"
+                    style={{ 
+                      backgroundColor: 'var(--accent-soft)',
+                      color: 'var(--text-primary)',
+                      border: '1px solid var(--border-soft)'
+                    }}
+                  >
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-rose-50 text-rose-600 shadow-sm border border-rose-100">
+                      <svg aria-hidden className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                    </div>
+                    <span>Como chegar</span>
+                  </a>
                 </div>
-                <span>Como chegar</span>
-              </a>
-            </div>
-          ) : (
-            <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
-              {endereco}
-            </p>
-          )}
+              );
+            }
+
+            return (
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
+                {endereco}
+              </p>
+            );
+          })()}
         </div>
 
         {linkAcao ? (
