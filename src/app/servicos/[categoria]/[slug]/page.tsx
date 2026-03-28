@@ -153,19 +153,37 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               dangerouslySetInnerHTML={{ __html: endereco }}
             />
           ) : endereco.startsWith('http') ? (
-            <a
-              href={endereco}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium transition hover:opacity-80"
-              style={{ color: 'var(--text-primary)' }}
-            >
-              <svg aria-hidden className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              Abrir no Google Maps
-            </a>
+            <div className="flex flex-col gap-3">
+              <div className="relative w-full overflow-hidden rounded-2xl border shadow-sm" style={{ borderColor: 'var(--border-soft)', backgroundColor: 'var(--bg-app)' }}>
+                <iframe 
+                  width="100%" 
+                  height="220" 
+                  style={{ border: 0, display: 'block' }}
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(endereco)}&output=embed`}
+                  allowFullScreen
+                  title="Mapa"
+                />
+              </div>
+              <a
+                href={endereco}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 rounded-2xl py-4 text-sm font-bold transition-all active:scale-[0.98] shadow-sm"
+                style={{ 
+                  backgroundColor: 'var(--accent-soft)',
+                  color: 'var(--text-primary)',
+                  border: '1px solid var(--border-soft)'
+                }}
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-rose-50 text-rose-600 shadow-sm border border-rose-100">
+                  <svg aria-hidden className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <span>Como chegar</span>
+              </a>
+            </div>
           ) : (
             <p className="text-sm leading-relaxed" style={{ color: 'var(--surface-text-secondary)' }}>
               {endereco}
