@@ -70,24 +70,57 @@ export default async function ContatosPage() {
     console.error("Erro ao carregar contatos extras:", error);
   }
 
-  const emergencias = contatosDeRede.filter((contato) => {
+  const fixedEmergencies = [
+    {
+      id: "fixed-180",
+      nome: "Central de Atendimento à Mulher",
+      telefone: "180",
+      descricao: "Atendimento especializado a mulheres em todo o país.",
+      isHot: true,
+    },
+    {
+      id: "fixed-190",
+      nome: "Polícia Militar",
+      telefone: "190",
+      descricao: "Para situações de risco imediato e emergência policial.",
+      isHot: true,
+    },
+    {
+      id: "fixed-192",
+      nome: "SAMU",
+      telefone: "192",
+      descricao: "Serviço de Atendimento Móvel de Urgência em saúde.",
+    },
+    {
+      id: "fixed-153",
+      nome: "Guarda Municipal",
+      telefone: "153",
+      descricao: "Patrulha Maria da Penha e apoio em ocorrências locais.",
+    },
+  ];
+
+  const dbEmergencias = contatosDeRede.filter((contato) => {
     const tipo = String(
       contato?.tipo || contato?.categoria || "",
     ).toLowerCase();
     const telefone = String(contato?.telefone || "").replace(/\D/g, "");
-    return (
-      tipo.includes("emerg") || ["180", "190", "153", "192"].includes(telefone)
+    const isStandardNum = ["180", "190", "153", "192", "100"].includes(
+      telefone,
     );
+    return !isStandardNum && tipo.includes("emerg");
   });
 
+  const allEmergencias = [...fixedEmergencies, ...dbEmergencias];
+
   const outrosContatos = contatosDeRede.filter((contato) => {
+    const telefone = String(contato?.telefone || "").replace(/\D/g, "");
+    const isStandardNum = ["180", "190", "153", "192", "100"].includes(
+      telefone,
+    );
     const tipo = String(
       contato?.tipo || contato?.categoria || "",
     ).toLowerCase();
-    const telefone = String(contato?.telefone || "").replace(/\D/g, "");
-    return !(
-      tipo.includes("emerg") || ["180", "190", "153", "192"].includes(telefone)
-    );
+    return !isStandardNum && !tipo.includes("emerg");
   });
 
   return (
@@ -124,43 +157,31 @@ export default async function ContatosPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {emergencias.length > 0 ? (
-              emergencias.map((em) => (
-                <a
-                  key={em.id}
-                  href={`tel:${em.telefone}`}
-                  className="flex items-center justify-between gap-4 rounded-2xl px-5 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-transform active:scale-95"
-                  style={{ backgroundColor: "var(--bg-surface)" }}
-                >
-                  <div className="flex flex-col gap-1">
-                    <h3 className="text-base font-bold text-rose-600">
-                      {em.nome || "Contato de emergência"}
-                    </h3>
-                    <p
-                      className="text-xs"
-                      style={{ color: "var(--surface-text-secondary)" }}
-                    >
-                      {em.descricao || "Sem descrição."}
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-center justify-center flex-shrink-0 bg-rose-100 text-rose-600 rounded-full w-14 h-14 shadow-sm">
-                    <span className="font-extrabold text-sm">
-                      {em.telefone || "-"}
-                    </span>
-                  </div>
-                </a>
-              ))
-            ) : (
-              <p
-                className="text-sm text-center py-6 border border-dashed rounded-2xl"
-                style={{
-                  borderColor: "var(--border-soft)",
-                  color: "var(--text-muted)",
-                }}
+            {allEmergencias.map((em) => (
+              <a
+                key={em.id}
+                href={`tel:${em.telefone}`}
+                className={`flex items-center justify-between gap-4 rounded-2xl px-5 py-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-transform active:scale-95 border-b-4 ${em.isHot ? "border-rose-500/20" : "border-transparent"}`}
+                style={{ backgroundColor: "var(--bg-surface)" }}
               >
-                Nenhum contato de emergência cadastrado no banco de dados.
-              </p>
-            )}
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-base font-bold text-rose-600">
+                    {em.nome || "Contato de emergência"}
+                  </h3>
+                  <p
+                    className="text-[11px] leading-tight"
+                    style={{ color: "var(--surface-text-secondary)" }}
+                  >
+                    {em.descricao || "Sem descrição."}
+                  </p>
+                </div>
+                <div className="flex flex-col items-center justify-center flex-shrink-0 bg-rose-50 text-rose-600 rounded-full w-14 h-14 shadow-sm border border-rose-100">
+                  <span className="font-extrabold text-lg">
+                    {em.telefone || "-"}
+                  </span>
+                </div>
+              </a>
+            ))}
           </div>
         </section>
 
