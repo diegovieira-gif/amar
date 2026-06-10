@@ -1,6 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
 import { NextRequest, NextResponse } from 'next/server';
 import { directus } from '@/lib/directus';
+import type { ChaveIa } from '@/lib/directus';
 import { readItems } from '@directus/sdk';
 
 // Função utilitária mockada para buscar arquivos no Drive
@@ -32,7 +33,6 @@ export async function POST(req: NextRequest) {
 
     try {
       const activeKeys = await directus.request(
-        // @ts-ignore
         readItems('chaves_ia', {
           filter: {
             provedor: { _eq: 'Gemini' },
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
           },
           limit: 1,
         })
-      ) as any[];
+      ) as ChaveIa[];
 
       if (activeKeys && activeKeys.length > 0) {
         apiKey = activeKeys[0].chave;

@@ -2,6 +2,7 @@ import BottomNav from "@/components/BottomNav";
 import Hero from "@/components/Hero";
 import TopBar from "@/components/TopBar";
 import { directus } from "@/lib/directus";
+import type { AmarCategoria, AmarCampanha, AmarProjeto } from "@/lib/directus";
 import { readItems } from "@directus/sdk";
 import Link from "next/link";
 import CategoryChip from "@/components/CategoryChip";
@@ -12,56 +13,38 @@ export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
 export default async function Home() {
-  let categorias: any[] = [];
-  let campanhas: any[] = [];
-  let projetos: any[] = [];
-
-  try {
-    // Fetch das categorias (amar_categorias) ordenando pelo campo ordem e filtrando por status: 'published'
-    categorias = await directus.request(
+  const [categoriasResult, campanhasResult, projetosResult] = await Promise.allSettled([
+    directus.request(
       readItems("amar_categorias", {
         filter: { status: { _eq: "published" } },
-        sort: ["ordem"] as any,
+        sort: ["ordem"] as const,
       })
-    );
-  } catch (error) {
-    console.error('Erro ao buscar categorias:', error);
-  }
-
-  try {
-    // Fetch das campanhas (amar_campanhas) filtrando por status: 'published'
-    campanhas = await directus.request(
+    ),
+    directus.request(
       readItems("amar_campanhas", {
         filter: { status: { _eq: "published" } },
         fields: ["*", "imagem_capa.*", "url_instagram"] as any,
       })
-    );
-  } catch (error) {
-    console.error('Erro ao buscar campanhas:', error);
-  }
-
-  try {
-    // Fetch dos projetos (amar_projetos) filtrando por status: 'published'
-    projetos = await directus.request(
+    ),
+    directus.request(
       readItems("amar_projetos", {
         filter: { status: { _eq: "published" } },
-        sort: ["ordem"] as any,
+        sort: ["ordem"] as const,
         fields: ["*", "imagem_capa.*", "link_imagem"] as any,
       })
-    );
-  } catch (error) {
-    console.error('Erro ao buscar projetos:', error);
-  }
+    ),
+  ]);
 
-  const isErrorOrEmpty = categorias.length === 0;
+  if (categoriasResult.status === 'rejected') console.error('Erro ao buscar categorias:', categoriasResult.reason);
+  if (campanhasResult.status === 'rejected') console.error('Erro ao buscar campanhas:', campanhasResult.reason);
+  if (projetosResult.status === 'rejected') console.error('Erro ao buscar projetos:', projetosResult.reason);
+
+  const categorias = (categoriasResult.status === 'fulfilled' ? categoriasResult.value : []) as unknown as AmarCategoria[];
+  const campanhas = (campanhasResult.status === 'fulfilled' ? campanhasResult.value : []) as unknown as AmarCampanha[];
+  const projetos = (projetosResult.status === 'fulfilled' ? projetosResult.value : []) as unknown as AmarProjeto[];
 
   return (
     <div className="relative flex min-h-screen flex-col bg-[var(--bg-app)]">
-      {isErrorOrEmpty && (
-        <div className="bg-red-500 text-white p-4 font-bold text-center">
-          Nenhum dado vindo da API! Verifique o Terminal.
-        </div>
-      )}
       <TopBar />
       <main className="relative flex flex-1 flex-col gap-6 pb-32 pt-20 px-4">
         <Hero />

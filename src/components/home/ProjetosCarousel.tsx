@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, A11y, Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
+import type { AmarProjeto } from "@/lib/directus";
 
 // Swiper styles
 import "swiper/css";
@@ -83,17 +84,7 @@ function SlideCard({
   );
 }
 
-export interface Projeto {
-  id: string;
-  titulo?: string;
-  descricao?: string;
-  imagem_capa?: string | { id: string; type: string } | null;
-  link_imagem?: string | null;
-  tipo_link?: string;
-  link_destino?: string | null;
-}
-
-export default function ProjetosCarousel({ projetos = [] }: { projetos?: Projeto[] }) {
+export default function ProjetosCarousel({ projetos = [] }: { projetos?: AmarProjeto[] }) {
   const router = useRouter();
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const prevRef = useRef<HTMLButtonElement | null>(null);

@@ -41,11 +41,21 @@ export interface AmarProjeto {
   link_destino: string | null;
 }
 
+export interface ChaveIa {
+  id: string;
+  provedor: string;
+  chave: string;
+  modelo: string | null;
+  status: string;
+  ativa: boolean;
+}
+
 export interface Schema {
   amar_categorias: AmarCategoria[];
   amar_servicos: AmarServico[];
   amar_campanhas: AmarCampanha[];
   amar_projetos: AmarProjeto[];
+  chaves_ia: ChaveIa[];
 }
 
 export const directus = createDirectus<Schema>(process.env.NEXT_PUBLIC_DIRECTUS_URL!)
