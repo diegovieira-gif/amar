@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "schema:bootstrap": "tsx --loader dotenv/config scripts/directus/bootstrapSchema.ts",
-    "schema:snapshot": "tsx --loader dotenv/config scripts/directus/snapshot-export.ts",
-    "deploy:remote": "node scripts/remote-deploy.js"
+    "schema:snapshot": "tsx --loader dotenv/config scripts/directus/snapshot-export.ts"
   },
   "dependencies": {
     "@directus/sdk": "^18.0.3",
@@ -30,7 +29,6 @@
     "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
-    "node-ssh": "^13.2.1",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"

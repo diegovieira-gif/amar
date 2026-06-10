@@ -1,5 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
 import { NextRequest, NextResponse } from 'next/server';
+import { directus } from '@/lib/directus';
+import { readItems } from '@directus/sdk';
 
 // Função utilitária mockada para buscar arquivos no Drive
 // Em produção, usar: import { google } from 'googleapis';
@@ -24,9 +26,35 @@ export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json();
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    // Fetch Gemini API key and model from Directus (chaves_ia collection)
+    let apiKey = '';
+    let modelName = 'gemini-2.5-flash';
+
+    try {
+      const activeKeys = await directus.request(
+        // @ts-ignore
+        readItems('chaves_ia', {
+          filter: {
+            provedor: { _eq: 'Gemini' },
+            status: { _eq: 'ativo' },
+            ativa: { _eq: true },
+          },
+          limit: 1,
+        })
+      ) as any[];
+
+      if (activeKeys && activeKeys.length > 0) {
+        apiKey = activeKeys[0].chave;
+        if (activeKeys[0].modelo) {
+          modelName = activeKeys[0].modelo;
+        }
+      }
+    } catch (dbError) {
+      console.error('Erro ao buscar a chave do Gemini no Directus:', dbError);
+    }
+
     if (!apiKey) {
-      return NextResponse.json({ error: 'API Key do Gemini não configurada' }, { status: 500 });
+      return NextResponse.json({ error: 'API Key do Gemini não configurada no Directus' }, { status: 500 });
     }
 
     const ai = new GoogleGenAI({ apiKey });
@@ -44,7 +72,7 @@ ${conversation}
 IA:`;
 
     const resultStream = await ai.models.generateContentStream({
-      model: 'gemini-2.5-flash',
+      model: modelName,
       contents: promptContext,
     });
 
