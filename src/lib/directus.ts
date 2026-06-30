@@ -12,42 +12,73 @@ export interface AmarCategoria {
 
 export interface AmarServico {
   id: string;
-  status?: string;
-  nome?: string;
-  descricao?: string;
-  categoria?: string | AmarCategoria;
+  titulo: string;
+  slug: string;
+  descricao_curta: string | null;
+  documentos_necessarios: string | null;
+  horario_atendimento: string | null;
+  link_externo_acao: string | null;
+  status: string;
+  categoria_id: string | null;
+  sobre: string | null;
+  endereco_mapa: string | null;
 }
 
 export interface AmarCampanha {
   id: string;
   titulo: string;
-  imagem_capa: string | { id: string; type: string } | null;
-  link_destino: string | null;
-  url_instagram?: string | null;
-  data_inicio: string | null;
-  data_fim: string | null;
-  status: string;
+  status: string | null;
+  url_instagram: string | null;
+  date_created: string | null;
 }
 
 export interface AmarProjeto {
-  id: string;
+  id: number;
   status: string;
   ordem: number | null;
   titulo: string;
   descricao: string | null;
-  imagem_capa: string | { id: string; type: string } | null;
-  link_imagem?: string | null;
-  tipo_link: string;
+  imagem_capa: string | null;
   link_destino: string | null;
+  tipo_link: string | null;
+  link_imagem: string | null;
 }
 
-export interface ChaveIa {
-  id: string;
-  provedor: string;
-  chave: string;
-  modelo: string | null;
+export interface AmarCurso {
+  id: number;
+  titulo: string | null;
+  descricao: string | null;
+  data: string | null;
+  horario: string | null;
+  local: string | null;
+  vagas: number | null;
+  status_curso: string | null;
+  requisitos: string | null;
+  link: string | null;
+}
+
+export interface AmarContato {
+  id: number;
+  nome: string;
+  descricao: string | null;
+  telefone: string | null;
+  endereco: string | null;
+}
+
+export interface AmarSonho {
+  id: number;
+  nome: string | null;
+  telefone: string | null;
+  cpf: string | null;
+  audio: string | null;
+  date_created: string | null;
+}
+
+export interface ConfigIntegracao {
+  id: number;
+  nome: string;
+  gemini_api_key: string;
   status: string;
-  ativa: boolean;
 }
 
 export interface Schema {
@@ -55,9 +86,13 @@ export interface Schema {
   amar_servicos: AmarServico[];
   amar_campanhas: AmarCampanha[];
   amar_projetos: AmarProjeto[];
-  chaves_ia: ChaveIa[];
+  amar_cursos: AmarCurso[];
+  amar_contatos: AmarContato[];
+  amar_sonhos: AmarSonho[];
+  config_integracao: ConfigIntegracao[];
 }
 
 export const directus = createDirectus<Schema>(process.env.NEXT_PUBLIC_DIRECTUS_URL!)
   .with(rest())
   .with(staticToken(process.env.DIRECTUS_TOKEN!));
+

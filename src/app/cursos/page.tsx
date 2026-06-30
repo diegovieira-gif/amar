@@ -156,6 +156,28 @@ export default async function CursosPage() {
                     </div>
                   )}
                 </div>
+
+                {/* Botão de Inscrição */}
+                {curso.status_curso !== 'concluido' ? (
+                  <a
+                    href={curso.link || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 w-full inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all shadow-[0_4px_12px_rgba(165,0,224,0.15)] hover:shadow-[0_6px_16px_rgba(165,0,224,0.25)] hover:brightness-110 text-center cursor-pointer"
+                    style={{
+                      backgroundColor: 'var(--color-primary, #a500e0)',
+                    }}
+                  >
+                    Inscrever
+                  </a>
+                ) : (
+                  <button
+                    disabled
+                    className="mt-2 w-full inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-500 bg-gray-100 dark:bg-gray-800 dark:text-gray-400 cursor-not-allowed text-center border border-gray-200 dark:border-gray-700"
+                  >
+                    Concluído
+                  </button>
+                )}
               </div>
             ))
           )}

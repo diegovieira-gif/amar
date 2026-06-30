@@ -27,7 +27,6 @@ export default async function CampanhasPage() {
             _eq: "published",
           },
         },
-        // @ts-expect-error date_created is dynamically added
         sort: ["-date_created"],
       })
     );

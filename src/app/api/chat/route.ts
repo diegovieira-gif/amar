@@ -1,7 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
 import { NextRequest, NextResponse } from 'next/server';
 import { directus } from '@/lib/directus';
-import type { ChaveIa } from '@/lib/directus';
+import type { ConfigIntegracao } from '@/lib/directus';
 import { readItems } from '@directus/sdk';
 
 // Função utilitária mockada para buscar arquivos no Drive
@@ -27,31 +27,28 @@ export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json();
 
-    // Fetch Gemini API key and model from Directus (chaves_ia collection)
+    // Fetch Gemini API key from Directus (config_integracao collection)
     let apiKey = '';
     let modelName = 'gemini-2.5-flash';
 
     try {
-      const activeKeys = await directus.request(
-        readItems('chaves_ia', {
+      const activeConfigs = await directus.request(
+        readItems('config_integracao', {
           filter: {
-            provedor: { _eq: 'Gemini' },
-            status: { _eq: 'ativo' },
-            ativa: { _eq: true },
+            nome: { _eq: 'gemini_api_key' },
+            status: { _eq: 'published' },
           },
           limit: 1,
         })
-      ) as ChaveIa[];
+      ) as unknown as ConfigIntegracao[];
 
-      if (activeKeys && activeKeys.length > 0) {
-        apiKey = activeKeys[0].chave;
-        if (activeKeys[0].modelo) {
-          modelName = activeKeys[0].modelo;
-        }
+      if (activeConfigs && activeConfigs.length > 0) {
+        apiKey = activeConfigs[0].gemini_api_key;
       }
     } catch (dbError) {
       console.error('Erro ao buscar a chave do Gemini no Directus:', dbError);
     }
+
 
     if (!apiKey) {
       return NextResponse.json({ error: 'API Key do Gemini não configurada no Directus' }, { status: 500 });
